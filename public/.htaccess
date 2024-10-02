@@ -1,0 +1,11 @@
+RewriteEngine On
+
+## Allow assets in this folder
+Order Allow,Deny
+Allow from all
+
+# Allow files in this folder
+<FilesMatch ".">
+  Order Allow,Deny
+  Allow from all
+</FilesMatch>

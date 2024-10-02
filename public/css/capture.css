@@ -1,0 +1,15 @@
+#cameraView,
+#uploadPreview {
+    position: relative;
+    width: 100vw;
+    height: 50vh;
+    overflow: hidden;
+    background-color: #000;
+}
+#cameraView video,
+#uploadPreview img {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    object-fit: contain;
+}

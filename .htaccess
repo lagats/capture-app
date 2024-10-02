@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /capture/
+
+RewriteCond %{REQUEST_FILENAME} !.(js|css|jpg|jpe?g|png|mp4)$
+RewriteRule ^(.*)$ index.php 

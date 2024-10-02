@@ -1,0 +1,67 @@
+html {
+    box-sizing: border-box;
+    background: #111;
+}
+
+body {
+    --gridgap: 0.5rem;
+}
+
+.masonry {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: var(--gridgap);
+}
+
+.masonry-item {
+    position: relative;
+    display: block;
+    width: calc((100% / 3) - var(--gridgap));
+    height: 20vh;
+    overflow: hidden;
+    border-radius: var(--gridgap);
+}
+@media (min-width: 600px) {
+    .masonry-item {
+         width: calc((100% / 4) - var(--gridgap));
+    }
+}
+@media (min-width: 800px) {
+    .masonry-item {
+         width: calc((100% / 5) - var(--gridgap));
+    }
+}
+@media (min-width: 1000px) {
+    .masonry-item {
+         width: calc((100% / 6) - var(--gridgap));
+    }
+}
+@media (min-width: 1200px) {
+    .masonry-item {
+         width: calc((100% / 7) - var(--gridgap));
+    }
+}
+@media (min-width: 1400px) {
+    .masonry-item {
+         width: calc((100% / 8) - var(--gridgap));
+    }
+}
+@media (min-width: 1600px) {
+    .masonry-item {
+         width: calc((100% / 9) - var(--gridgap));
+    }
+}
+@media (min-width: 1800px) {
+    .masonry-item {
+         width: calc((100% / 10) - var(--gridgap));
+    }
+}
+
+.masonry-item img {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}

@@ -1,0 +1,50 @@
+:root {
+    counter-reset: masonry;
+}
+
+.masonry {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(100px,1fr));
+    grid-auto-rows: 0;
+}
+
+.masonry-item {
+    border-radius: 5px;
+}
+
+.masonry-item {
+    background-color: #eee;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.masonry-item,
+.masonry-item img {
+    position: relative;
+    max-width: 150px;
+    image-fit: cover;
+    object-fit: cover;
+}
+
+.masonry-item:after {
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, .5);
+    content: counter(masonry);
+    counter-increment: masonry;
+    position: absolute;
+    top: 0;
+    left: 0; 
+    height: 100%;
+    width: 100%;
+    color: white;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    transition: all .1s ease-in;
+}
+
+.masonry-item:hover:after {
+    font-size: 30px;
+    background-color: rgba(0, 0, 0, .75);
+}
