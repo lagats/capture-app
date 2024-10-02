@@ -12,31 +12,17 @@
     const uploadPreview = document.getElementById('uploadPreview');
     const cancelUploadButton = document.getElementById('cancelUploadButton');
 
-    // Function to enumerate available cameras and populate the dropdown
-    function enumerateCameras() {
-        navigator.mediaDevices.enumerateDevices()
-            .then(devices => {
-                devices.forEach(device => {
-                    console.log(JSON.stringify(device));
-                    if (device.kind === 'videoinput') {
-                        const option = document.createElement('option');
-                        option.value = device.deviceId;
-                        option.text = device.label || `Camera ${cameraSelect.length + 1}`;
-                        cameraSelect.appendChild(option);
-                    }
-                });
-            })
-            .catch(error => {
-                console.error('Error enumerating cameras:', error);
-            });
-    }
+    // Camera facing mode
+    let cameraFacingIndex = 0;
+    const cameraFacingModes = [
+        'environment',
+        'user',
+    ];
 
     // Function to start the video stream using the selected camera
-    function startVideo(deviceId) {
+    function startVideo(facingMode = cameraFacingModes[cameraFacingIndex]) {
         navigator.mediaDevices.getUserMedia({ video: {
-            deviceId,
-            // facingMode:'user',
-            // facingMode:'environment',
+            facingMode,
             width: { ideal: 4096 },
             height: { ideal: 2160 }
         } })
@@ -92,8 +78,9 @@
     }
 
     // Event listener for camera selection change
-    cameraSelect.addEventListener('change', () => {
-        startVideo(cameraSelect.value);
+    cameraSelect.addEventListener('click', () => {
+        cameraFacingIndex = (cameraFacingIndex + 1) % cameraFacingModes.length;
+        startVideo(cameraFacingModes[cameraFacingIndex]);
     });
 
     // Event listener for take photo button click
@@ -118,9 +105,6 @@
         // Start asynchronous upload process
         uploadFormData(formData);
     });
-
-    // Call enumerateCameras to populate the dropdown on page load
-    enumerateCameras();
 
     // Start the video stream with the first camera by default
     startVideo(cameraSelect.value);

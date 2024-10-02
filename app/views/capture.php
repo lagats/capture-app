@@ -13,7 +13,7 @@
     <div id="cameraView">
         <video id="video" autoplay></video>
     </div>
-    <select id="cameraSelect"></select>
+    <button id="cameraSelect">Change Camera</button>
     <button id="takePhotoButton">Take Photo</button>
     <input id="manualFileUpload" type="file" accept="image/*;capture=camera">
     <button id="cancelUploadButton" disabled>Cancel Upload</button>
