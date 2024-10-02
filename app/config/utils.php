@@ -39,7 +39,7 @@ function generateThumbnail($imageFile) {
         $originalHeight = imagesy($originalImage);
 
         // Determine the thumbnail dimensions, maintaining aspect ratio
-        $thumbnailWidth = 720; // Target width
+        $thumbnailWidth = 300; // Target width
         $thumbnailHeight = $originalHeight * ($thumbnailWidth / $originalWidth);
 
         // Create a new image with the thumbnail dimensions

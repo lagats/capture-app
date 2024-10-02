@@ -62,9 +62,10 @@
             setAttributes(img, {
                 class: 'masonry-content',
                 src: photo.size.thumb, // Assuming "thumb" holds the thumbnail URL
-                alt: 'Wedding Photo', // Adjust based on your data or add logic for dynamic alt text
-                title: 'Wedding Photo', // Adjust based on your data or add logic for dynamic title
-                decoding: 'async'
+                // alt: 'Wedding Photo', // Adjust based on your data or add logic for dynamic alt text
+                // title: 'Wedding Photo', // Adjust based on your data or add logic for dynamic title
+                decoding: 'async',
+                loading: 'lazy'
             });
             // Check when each is finished loading
             img.addEventListener('load', imageLoaded);
