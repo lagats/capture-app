@@ -15,7 +15,7 @@
     let itemsPerPage = 12;
 
     // Your custom API endpoint
-    const apiUrl = 'https://wedding.lagats.com/capture/media';
+    const apiUrl = './media';
 
     function updateAPIUrlWithNewPage() {
         currentPage++;

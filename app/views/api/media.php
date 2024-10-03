@@ -1,5 +1,11 @@
 <?php
 
+
+
+/* ---------------------------- *
+ * Load images from upload folder
+ * ---------------------------- */
+
 // Paths
 $uploadDir = Flight::get('public.upload.path');
 $uploadUrl = Flight::get('public.upload.url');

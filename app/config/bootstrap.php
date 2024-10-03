@@ -36,6 +36,11 @@ $config = require('config.php');
 $router = $app->router();
 
 /*
+ * Load icons
+ */
+require('icons.php');
+
+/*
  * Load the routes file. the $router variable above is passed into the routes.php
  * file below so that you can define routes in that file.
  * A route is really just a URL, but saying route makes you sound cooler.

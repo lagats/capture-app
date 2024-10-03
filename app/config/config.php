@@ -26,7 +26,7 @@ if(empty($app)) {
 $app->path(realpath(__DIR__ . $ds . '..' . $ds));
 
 // Flight config variables. 
-$app->set('flight.base_url', 'https://wedding.lagats.com/capture/'); // if this is in a subdirectory, you'll need to change this
+$app->set('flight.base_url', 'https://capture.lagats.com/'); // if this is in a subdirectory, you'll need to change this
 $app->set('flight.case_sensitive', false); // if you want case sensitive routes, set this to true
 $app->set('flight.log_errors', true); // if you want to log errors, set this to true
 $app->set('flight.handle_errors', true); // if you want flight to handle errors, set this to true, otherwise Tracy will handle them
@@ -36,6 +36,7 @@ $app->set('flight.content_length', true); // if flight should send a content len
 $app->set('app.path', realpath(__DIR__ . $ds . '..' . $ds) . $ds);
 $app->set('app.config.path', __DIR__ . $ds);
 $app->set('app.views.path', Flight::get('app.path') . 'views' . $ds);
+$app->set('app.icon.path', Flight::get('app.path') . 'icons' . $ds);
 
 // public paths
 $app->set('public.path', realpath(Flight::get('app.path') . '..' . $ds . 'public' . $ds) . $ds);
@@ -55,7 +56,8 @@ $app->set('public.css.url', Flight::get('public.url') . 'css/');
 $date = new DateTime();
 $app->set('app.date', $date);
 $app->set('app.timestamp', $date->getTimestamp());
-$app->set('app.allow.media', ['jpg', 'jpeg', 'png', 'gif']);;
+$app->set('app.sitename', 'Snap-a-Lagat');
+$app->set('app.allow.media', ['jpg', 'jpeg', 'png', 'gif']);
 
 /* 
  * This is where you will store database credentials, api credentials

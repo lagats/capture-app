@@ -1,0 +1,45 @@
+html {
+    font-size: 93.75%;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: none;
+}
+
+body {
+    --color--page: #111;
+    --color--page-scrim: #11111180;
+    --color--text: #fefefe;
+
+    --gap--sd: 0.5rem;
+    --gap--md: 1rem;
+    --gap--lg: 2rem;
+    --gap--xlg: 3rem;
+
+    background: var(--color--page);
+    color: var(--color--text);
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+}
+
+
+
+/* icons*/
+
+.svg-icon {
+    display: inline-block;
+    overflow: visible;
+    width: 1em;
+    height: 1em;
+    font-size: inherit;
+    vertical-align: -.125em;
+    fill: currentColor;
+}

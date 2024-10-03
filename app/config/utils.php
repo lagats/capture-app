@@ -2,10 +2,7 @@
 
 /**
  * Generates a thumbnail for the specified image file.
- *
- * @param string $imageFile The path to the original image file.
- * @return string|false The path to the generated thumbnail file, or false if the thumbnail could not be created.
- */
+ **/
 function generateThumbnail($imageFile) {
     // Check if the original image file exists
     if (!file_exists($imageFile)) {
@@ -61,4 +58,26 @@ function generateThumbnail($imageFile) {
         'path' => $thumbnailFilepath,
         'url'  => $thumbnailUrl . $thumbnailFilename,
     ];
+}
+
+/**
+ * Add console log to inline
+ **/
+function debugInline() {
+    ?>
+        <div id="debugDiv" style="background: #ddd; padding: 0.75rem 1rem;"></div>
+        <script>
+        if (typeof console  != "undefined") 
+            if (typeof console.log != 'undefined')
+                console.olog = console.log;
+            else
+                console.olog = function() {};
+
+            console.log = function(message) {
+                console.olog(message);
+                document.querySelector('#debugDiv').innerHTML += '<div>' + message + '</div>';
+            };
+            console.error = console.debug = console.info =  console.log;
+        </script>
+    <?php
 }
