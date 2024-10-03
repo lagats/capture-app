@@ -56,5 +56,6 @@
             <div id="uploadProgress"></div>
         </div>
     </div>
+    <?php googleAnalytics();  ?>
 </body>
 </html>

@@ -36,6 +36,11 @@ $config = require('config.php');
 $router = $app->router();
 
 /*
+ * Load analytics
+ */
+require('analytics.php');
+
+/*
  * Load icons
  */
 require('icons.php');
