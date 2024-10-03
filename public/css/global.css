@@ -23,7 +23,7 @@ body {
     --color--primary-light: #D19997;
     --color--primary-lighter: #e3cfce;
 
-    --gap--sd: 0.5rem;
+    --gap--sm: 0.5rem;
     --gap--md: 1rem;
     --gap--lg: 2rem;
     --gap--xlg: 3rem;

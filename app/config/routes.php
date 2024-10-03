@@ -38,7 +38,7 @@ Flight::route('/gallery', function () {
     require(Flight::get('app.views.path') . 'gallery.php');
 })->addMiddleware($PageMiddleware);
 
-Flight::route('/gallery/personal', function () {
+Flight::route('/mypics', function () {
     // vars
     Flight::set('app.page.name',  ' | ' . 'My Photos');
     Flight::set('app.page.classnames',  'gallery-page gallery--me');

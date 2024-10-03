@@ -46,7 +46,7 @@
                     Upload
                 </button>
                 <!-- link to my uploaded images -->
-                <a href="gallery/personal" class="nav-btn">
+                <a href="mypics" class="nav-btn">
                     <?php echo Flight::get('icon.my-gallery'); ?>
                     My Pics
                 </a>

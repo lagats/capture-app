@@ -100,27 +100,18 @@
 
 .camera-toolbar {
     flex: 0 0 auto;
-    bottom: 0;
-    left: 0;
     width: 100%;
     z-index: 100;
     background-color: var(--color--page);
 }
-
 .toolbar {
-    padding: var(--gap--lg);
-}
-
-.toolbar-main {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: var(--gap--xlg);
-    justify-content: center;
+    padding: var(--gap--lg);
 }
 .toolbar-secondary {
-    display: flex;
-    gap: var(--gap--xlg);
-    justify-content: center;
     padding-top: 0;
 }
 
@@ -176,9 +167,15 @@
     width: max-content;
     max-width: 90%;
     text-decoration: none;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
 }
 .nav-btn svg {
     margin-right: 0.25em;
+}
+.nav-btn:is(:hover,:focus) {
+    transform: scale(1.1);
+    opacity: 0.8;
 }
 
 .camera-btn {
@@ -201,6 +198,7 @@
 }
 .camera-btn:is(:hover,:focus) {
     transform: scale(1.1);
+    opacity: 0.8;
 }
 .camera-btn--small {
     font-size: clamp(0.8rem,8vw,2.4rem);
@@ -210,4 +208,38 @@
     background-color: var(--color--text);
     border-color: var( --color--primary-lighter);
     box-shadow: inset 0 0 0 10px var(--color--page);
+}
+.camera-take-photo:is(:hover,:focus) {
+    box-shadow: inset 0 0 0 15px var(--color--page);
+}
+
+
+
+/* responsive layout */
+
+@media (orientation: landscape) {
+    .camera-container {
+        flex-direction: row;
+    }
+    .camera-toolbar {
+        width: auto;
+        height: 100%;
+        width: min-content;
+    }
+    .toolbar {
+        flex-direction: column;
+    }
+    .toolbar-main {
+        height: 100%;
+        gap: var(--gap--sm);
+    }
+    .toolbar-secondary {
+        padding-top: 0;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        flex-direction: row;
+        padding-right: calc(var(--gap--xlg) * 3 + clamp(1rem,10vw,3rem));
+    }
 }

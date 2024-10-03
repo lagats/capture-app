@@ -138,7 +138,7 @@
         previewImage(dataURL);
 
         // Do zoomy effect
-        window.captureApp.galleryZoomyEffect();
+        galleryZoomyEffect();
     
         // Start asynchronous upload process
         uploadFormData(formData);
@@ -160,15 +160,12 @@
         uploadFormData
     };
 
-})();
 
 
+    // -------------------
+    // Upload field
+    // -------------------
 
-// -------------------
-// Upload field
-// -------------------
-
-(function(){
     // Send pic
     function bindFileUploadField(selector) {
         const element = document.querySelector(selector);
@@ -184,15 +181,13 @@
     // Add listener
     bindFileUploadField('#manualFileUpload');
     bindFileUploadField('#manualCapture');
-})();
 
 
 
-// -------------------
-// Photo capture gallery zoomy effect
-// -------------------
+    // -------------------
+    // Photo capture gallery zoomy effect
+    // -------------------
 
-(function(){
     function galleryZoomyEffect() {
         const targetEl = document.querySelector('.camera-frame');
         const absoluteEl = document.querySelector('.gallery-preview__frame');
@@ -217,9 +212,4 @@
             absoluteEl.style = '';
         }, 10);
     }
-
-    // Make functions avaliable in global scope
-    window.captureApp = {
-        galleryZoomyEffect
-    };
 })();
