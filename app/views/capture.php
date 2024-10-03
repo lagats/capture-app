@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo Flight::get('app.sitename') . Flight::get('app.page.name'); ?></title>
 
+    <!-- shared -->
     <link rel="stylesheet" type="text/css" href="<?php echo Flight::get('public.css.url') . 'reset.css'; ?>"></style>
     <link rel="stylesheet" type="text/css" href="<?php echo Flight::get('public.css.url') . 'global.css' . '?ver=' . uniqid(); ?>"></style>
+    
+    <!-- capture css/js -->
     <link rel="stylesheet" type="text/css" href="<?php echo Flight::get('public.css.url') . 'capture.css' . '?ver=' . uniqid(); ?>"></style>
-   
     <script acync defer src="<?php echo Flight::get('public.js.url') . 'capture.js' . '?ver=' . uniqid(); ?>"></script>
 </head>
 <body class="<?php echo Flight::get('app.page.classnames'); ?>">
@@ -54,6 +56,5 @@
             <div id="uploadProgress"></div>
         </div>
     </div>
-
 </body>
 </html>

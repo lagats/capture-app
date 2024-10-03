@@ -23,6 +23,9 @@
 
     // Function to start the video stream using the selected camera
     function startVideo(facingMode = cameraFacingModes[cameraFacingIndex]) {
+        if(!video){
+            return
+        }
         navigator.mediaDevices.getUserMedia({ video: {
             facingMode,
             width: { ideal: 4096 },
@@ -49,6 +52,9 @@
     
     // Function to stop the video stream
     function stopVideo() {
+        if(!video){
+            return
+        }
         const tracks = video.srcObject && video.srcObject.getTracks();
         if(tracks && tracks.length > 0) {
             tracks.forEach(track => track.stop());
@@ -61,7 +67,7 @@
     }
 
     // Function to upload the image to the server
-    function uploadFormData(formData) {
+    function uploadFormData(formData, reload = false) {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', 'upload', true); // Replace with your PHP upload script URL
         xhr.upload.onprogress = function(event) {
@@ -74,6 +80,9 @@
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
                 uploadProgress.textContent = 'Upload complete!';
+                if(reload) {
+                    window.location.reload();
+                }
             } else {
                 console.error('Upload error:', xhr.statusText);
             }
@@ -101,48 +110,52 @@
     }
 
     // Event listener for camera selection change
-    cameraSelect.addEventListener('click', () => {
-        cameraFacingIndex = (cameraFacingIndex + 1) % cameraFacingModes.length;
-        startVideo(cameraFacingModes[cameraFacingIndex]);
-    });
+    if(cameraSelect) {
+        cameraSelect.addEventListener('click', () => {
+            cameraFacingIndex = (cameraFacingIndex + 1) % cameraFacingModes.length;
+            startVideo(cameraFacingModes[cameraFacingIndex]);
+        });
+    }
 
     // Event listener for take photo button click
-    takePhotoButton.addEventListener('click', () => {
-        // Check if video is active
-        if(!videoActive) {
-            document.querySelector('#manualCapture').click();
-            return;
-        }
+    if(takePhotoButton) {
+        takePhotoButton.addEventListener('click', () => {
+            // Check if video is active
+            if(!videoActive) {
+                document.querySelector('#manualCapture').click();
+                return;
+            }
 
-        // Create a canvas element to draw the video frame
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        const context = canvas.getContext('2d');
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            // Create a canvas element to draw the video frame
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Check if the canvas is completely black
+            if (isCanvasCompletelyBlack(canvas)) {
+                return;
+            }
+            
+            // Convert the canvas to a data URL (image/jpeg)
+            const dataURL = canvas.toDataURL('image/jpeg', 0.5); // Adjust quality as needed
         
-        // Check if the canvas is completely black
-        if (isCanvasCompletelyBlack(canvas)) {
-            return;
-        }
+
+            // Create form data
+            const formData = new FormData();
+            formData.append('file', dataURL);
         
-        // Convert the canvas to a data URL (image/jpeg)
-        const dataURL = canvas.toDataURL('image/jpeg', 0.5); // Adjust quality as needed
-    
+            // Show preview of last photo
+            previewImage(dataURL);
 
-        // Create form data
-        const formData = new FormData();
-        formData.append('file', dataURL);
-    
-        // Show preview of last photo
-        previewImage(dataURL);
-
-        // Do zoomy effect
-        galleryZoomyEffect();
-    
-        // Start asynchronous upload process
-        uploadFormData(formData);
-    });
+            // Do zoomy effect
+            galleryZoomyEffect();
+        
+            // Start asynchronous upload process
+            uploadFormData(formData);
+        });
+    }
 
     // Listen for window focus/blur events to pause/resume video
     window.addEventListener('focus', () => {
@@ -155,11 +168,6 @@
     // Start the video stream with the first camera by default
     startVideo(cameraFacingModes[cameraFacingIndex]);
 
-    // Make functions avaliable in global scope
-    window.captureApp = {
-        uploadFormData
-    };
-
 
 
     // -------------------
@@ -169,13 +177,16 @@
     // Send pic
     function bindFileUploadField(selector) {
         const element = document.querySelector(selector);
+        if(!element) {
+            return;
+        }
         element.addEventListener('change', function() {
             const file = element.files[0];
             const formData = new FormData();
-                formData.append('file', file);
+                  formData.append('file', file);
     
             // Call uploadFormData function to handle upload
-            window.captureApp.uploadFormData(formData);
+            uploadFormData(formData, true);
         }, false);
     }
     // Add listener
