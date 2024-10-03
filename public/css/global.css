@@ -16,6 +16,8 @@ html {
 
 body {
     --color--page: #111;
+    --color--page-lv1: #222;
+    --color--page-lv2: #333;
     --color--page-scrim: #11111180;
     --color--text: #fefefe;
 
@@ -54,4 +56,55 @@ body {
     font-size: inherit;
     vertical-align: -.125em;
     fill: currentColor;
+}
+
+
+
+/* loading shimmer */
+.shimmer {
+    animation-duration: 2.2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: shimmer;
+    animation-timing-function: linear;
+    background: var(--color--page-lv1);
+    background: linear-gradient(135deg, var(--color--page-lv1) 8%, var(--color--page-lv2) 18%, var(--color--page-lv1) 33%);
+    background-size: 1200px 100%;
+}
+@-webkit-keyframes shimmer {
+    0% {
+        background-position: -100% 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
+}
+@keyframes shimmer {
+    0% {
+        background-position: -1200px 0;
+    }
+    100% {
+        background-position: 1200px 0;
+    }
+}
+
+
+
+/* fade in */
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

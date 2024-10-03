@@ -23,7 +23,15 @@
         <div class="camera-frame" id="cameraView">
           <!-- Loader -->
           <div class="loader" id="loader">
-            <?php echo Flight::get('icon.error'); ?>
+            <div class="masonry">
+            <?php
+                for($i=2; $i<13; $i++) {
+                    ?>
+                        <div class="masonry-item shimmer"></div>
+                    <?php
+                }
+            ?>
+            </div>
           </div>
           <!-- Image Container -->
           <div class="image-container masonry" id="image-container"></div>

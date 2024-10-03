@@ -113,6 +113,9 @@
     gap: var(--gap--xlg);
     padding: var(--gap--lg);
 }
+.toolbar-main {
+    font-size: 1rem;
+}
 .toolbar-secondary {
     padding-top: 0;
 }
@@ -185,7 +188,7 @@
     border-radius: 99rem;
     background-color: var(--color--page);
     color: var(--color--text);
-    font-size: clamp(1rem,10vw,3rem);
+    font-size: clamp(1em,10vw,3em);
     width: 2em;
     height: 2em;
     text-decoration: none;
@@ -207,7 +210,7 @@
     pointer-events: none;
 }
 .camera-btn--small {
-    font-size: clamp(0.8rem,8vw,2.4rem);
+    font-size: clamp(0.8em,8vw,2.4em);
 }
 
 .camera-take-photo {
@@ -237,7 +240,8 @@
     }
     .toolbar-main {
         height: 100%;
-        gap: var(--gap--sm);
+        gap: 1.5rem;
+        font-size: 0.8rem;
     }
     .toolbar-secondary {
         padding-top: 0;
