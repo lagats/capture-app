@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
 html {
     font-size: 93.75%;
     line-height: 1.15;
@@ -17,6 +19,10 @@ body {
     --color--page-scrim: #11111180;
     --color--text: #fefefe;
 
+    --color--primary: #9D5D5B;
+    --color--primary-light: #D19997;
+    --color--primary-lighter: #e3cfce;
+
     --gap--sd: 0.5rem;
     --gap--md: 1rem;
     --gap--lg: 2rem;
@@ -28,6 +34,12 @@ body {
     padding-right: 0px;
     padding-bottom: 0px;
     padding-left: 0px;
+
+    
+    font-family: "Raleway", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
 
 
