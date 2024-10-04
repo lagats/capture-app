@@ -107,7 +107,7 @@ body {
     transform: scale(0.95); 
 }
 
-.masonry-item img {
+.masonry-item .masonry-content {
     position: absolute;
     top: 0;
     height: 100%;
@@ -116,6 +116,6 @@ body {
     transition: all 0.3s ease-in-out;
     transform: translateZ(0);
 }
-.masonry-item:is(:hover,:focus) img {
+.masonry-item:is(:hover,:focus) .masonry-content {
     transform: scale(1.1);
 }

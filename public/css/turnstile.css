@@ -16,7 +16,6 @@
 .cf-turnstile.infront {
     z-index: 999;
 }
-
 .cf-turnstile > * {
     position: absolute;
     display: block;

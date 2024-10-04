@@ -25,11 +25,13 @@
             <!-- use video element to show camera feed -->
             <video class="camera-video"  id="video" autoplay></video>
             <!-- hidden input that gest griggered by #takePhotoButton if we cant get camera feed directly -->
-            <span class="warning">
+            <span class="toast error">
                 <?php echo Flight::get('icon.error'); ?>
                 Check camera permissions
             </span>
             <input hidden id="manualCapture" type="file" capture="environment" accept="image/png, image/gif, image/jpeg">
+            <!-- Image Upload Status -->
+            <div class="toast" id="uploadProgress"></div>
         </div>
         <div class="camera-toolbar">
             <div class="toolbar toolbar-main">
@@ -59,7 +61,6 @@
                     My Pics
                 </a>
             </div>
-            <div id="uploadProgress"></div>
         </div>
     </div>
 

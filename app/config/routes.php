@@ -43,7 +43,7 @@ class CheckTurnstileMiddleware
 {
     public function before(array $params): void 
     {
-        if(!Flight::get('config.turnstile.enabled')) {
+        if(!turnstileEnabled()) {
             return;
         }
         if(Flight::request()->method == 'POST') {
@@ -103,3 +103,15 @@ Flight::group('', function() {
         require(Flight::get('app.views.path') . 'api/media.php');
     });
 }, [ new CheckCsrfMiddleware(), new CheckTurnstileMiddleware() ]);
+
+
+
+/* ---------------------------- *
+ * Turnstile Routes
+ * ---------------------------- */
+
+Flight::group('', function() {
+    Flight::route('POST /turnstile-validate', function () {
+        require(Flight::get('app.views.path') . 'api/turnstile-validate.php');
+    });
+}, [ new CheckCsrfMiddleware() ]); /* ENSURE WE DONT USE 'CheckTurnstileMiddleware()' HERE */

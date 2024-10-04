@@ -86,16 +86,32 @@
         // submit to the upload endpoint
         xhr.open('POST', '/upload', true);
         // add request callbacks
+        let processingPercentage = 0;
         xhr.upload.onprogress = function(event) {
             if (event.lengthComputable) {
                 const progress = (event.loaded / event.total) * 100;
-                uploadProgress.textContent = `Uploading: ${progress.toFixed(2)}%`;
+                if(progress < 100) {
+                    uploadProgress.textContent = `Uploading: ${progress.toFixed(2)}%`;
+                } else {
+                    let intervalId = setInterval(() => {
+                        uploadProgress.textContent = `Processing: ${processingPercentage}%`;
+                        processingPercentage += 1;
+                        if (processingPercentage >= 100) {
+                            clearInterval(intervalId);
+                        }
+                    }, 50);
+                }
+                uploadProgress.classList.add('visible');
             }
         };
         xhr.onload = function() {
             if (xhr.status === 200) {
                 // const response = JSON.parse(xhr.responseText);
+                processingPercentage = 100;
                 uploadProgress.textContent = 'Upload complete!';
+                setTimeout(() => {
+                    uploadProgress.classList.remove('visible');
+                }, 300);
                 if(reload) {
                     window.location.reload();
                 }

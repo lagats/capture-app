@@ -46,6 +46,33 @@ body {
 
 
 
+/* toast */
+
+.toast {
+    display: none;
+    position: absolute;
+    bottom: var(--gap--md);
+    left: 50%;
+    transform: translate(-50%, 0);
+    padding: 0.75rem 1.25rem;
+    border-radius: 99rem;
+    box-shadow: 0 0 50px 0 var(--color--page);
+    text-align: center;
+    font-size: 1rem;
+    width: max-content;
+    max-width: 90%;
+    z-index: 999;
+    background: var(--color--page-lv2);
+}
+.toast.visible {
+    display: block;
+}
+.toast.error {
+    background: #8d0000;
+    border: 10px solid var(--color--page);
+}
+
+
 /* icons*/
 
 .svg-icon {

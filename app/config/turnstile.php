@@ -1,10 +1,37 @@
 <?php
 
 /**
+ * Validate cookie timestamp when we validate the user last completed the turnstile challenge, 
+ * if it's older than 1 hour, we'll invalidate the session and redirect to the turnstile challenge
+ **/
+function turnstileValidated() {
+    $session = Flight::session();
+    $turnstile_validatated = $session->getOrDefault('turnstile_validatated', 0);
+    if($turnstile_validatated) {
+        $time_difference = Flight::get('app.timestamp') - $turnstile_validatated;
+        $valid_duration = 60 * 60;
+        if($time_difference < $valid_duration) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Checks if the Turnstile feature is enabled and if the user has already validated the Turnstile challenge.
+ */
+function turnstileEnabled() {
+    if(!Flight::get('config.turnstile.enabled') || turnstileValidated()) {
+        return false;
+    }
+    return true;
+}   
+
+/**
  * Add turnstile script to the page
  **/
 function turnstileScript() {
-    if(!Flight::get('config.turnstile.enabled')) {
+    if(!turnstileEnabled()) {
         return;
     }
     ?>
@@ -19,7 +46,7 @@ function turnstileScript() {
  * Add turnstile element to the page
  **/
 function turnstileElement() {
-    if(!Flight::get('config.turnstile.enabled')) {
+    if(!turnstileEnabled()) {
         return;
     }
     ?>
@@ -40,7 +67,7 @@ function turnstileElement() {
  *               whether the verification was successful or not.
  */
 function turnstileVarify() {
-    if(!Flight::get('config.turnstile.enabled')) {
+    if(!turnstileEnabled()) {
         return [
             "success" => true,
         ];

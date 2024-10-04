@@ -33,7 +33,9 @@
             <?php
                 for($i=0; $i<9; $i++) {
                     ?>
-                        <div class="masonry-item shimmer"></div>
+                        <div class="masonry-item">
+                            <div class="masonry-content shimmer"></div>
+                        </div>
                     <?php
                 }
             ?>
@@ -41,6 +43,8 @@
           </div>
           <!-- Image Container -->
           <div class="image-container masonry" id="image-container"></div>
+          <!-- Image Upload Status -->
+          <div class="toast" id="uploadProgress"></div>
         </div>
         <div class="camera-toolbar">
             <div class="toolbar toolbar-main">
@@ -65,12 +69,18 @@
                     Upload
                 </button>
                 <!-- link to my uploaded images -->
-                <a href="mypics" class="nav-btn">
-                    <?php echo Flight::get('icon.my-gallery'); ?>
-                    My Pics
-                </a>
+                <?php if(str_contains(Flight::get('app.page.classnames'),'my_captures')) { ?>
+                    <a href="gallery" class="nav-btn">
+                        <?php echo Flight::get('icon.gallery'); ?>
+                        Gallery
+                    </a>
+                <?php } else { ?>
+                    <a href="mypics" class="nav-btn">
+                        <?php echo Flight::get('icon.my-gallery'); ?>
+                        My Pics
+                    </a>
+                <?php } ?>
             </div>
-            <div id="uploadProgress"></div>
         </div>
     </div>
 
