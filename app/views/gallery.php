@@ -25,7 +25,7 @@
           <div class="loader" id="loader">
             <div class="masonry">
             <?php
-                for($i=2; $i<13; $i++) {
+                for($i=1; $i<12; $i++) {
                     ?>
                         <div class="masonry-item shimmer"></div>
                     <?php

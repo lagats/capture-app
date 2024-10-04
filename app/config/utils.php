@@ -6,7 +6,11 @@
 function generateThumbnail($imageFile) {
     // Check if the original image file exists
     if (!file_exists($imageFile)) {
-        return false;
+        return [
+            'name' => '',
+            'path' => '',
+            'url'  => '',
+        ];
     }
 
     // Paths
@@ -28,29 +32,9 @@ function generateThumbnail($imageFile) {
 
     // Check if the thumbnail already exists
     if (!file_exists($thumbnailFilepath)) {
-        // Load the original image
-        $originalImage = imagecreatefromstring(file_get_contents($imageFile));
-
-        // Get the original image dimensions
-        $originalWidth = imagesx($originalImage);
-        $originalHeight = imagesy($originalImage);
-
-        // Determine the thumbnail dimensions, maintaining aspect ratio
-        $thumbnailWidth = 300; // Target width
-        $thumbnailHeight = $originalHeight * ($thumbnailWidth / $originalWidth);
-
-        // Create a new image with the thumbnail dimensions
-        $thumbnailImage = imagecreatetruecolor($thumbnailWidth, $thumbnailHeight);
-
-        // Resize the original image to fit the thumbnail dimensions
-        imagecopyresampled($thumbnailImage, $originalImage, 0, 0, 0, 0, $thumbnailWidth, $thumbnailHeight, $originalWidth, $originalHeight);
-
-        // Set the image quality to 70%
-        imagejpeg($thumbnailImage, $thumbnailFilepath, 70);
-
-        // Free memory
-        imagedestroy($originalImage);
-        imagedestroy($thumbnailImage);
+        $image = Flight::imageResize($imageFile);
+        $image->resizeToWidth(300);
+        $image->save($thumbnailFilepath);
     }
 
     return [

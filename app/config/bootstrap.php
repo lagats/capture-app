@@ -20,6 +20,17 @@ $app = Flight::app();
 /* Register session handler */
 $app->register('session', 'Ghostff\Session\Session');
 
+/* Register nonce handler */
+// $nonceConfig = new \Nonce\Config\Config;
+// $nonceStore = new \Nonce\HashStore\Cookie;
+// $nonceUtil = new \Nonce\Nonce( $nonceConfig, $nonceStore );
+// $app->map('nonce', function() use($nonceUtil) { return $nonceUtil; });
+
+/* Register resize handler */
+$app->map('imageResize', function($image) { 
+	return new \Gumlet\ImageResize($image);
+});
+
 /*
  * Load utils
  */

@@ -11,7 +11,7 @@ $uploadUrl = Flight::get('public.upload.url');
 $allowedExtensions = Flight::get('app.allow.media');
 
 // Handle the uploaded file data
-$dataUriString = $_POST['file'] ?? null;
+$dataUriString = $_POST['file'] ?? '';
 $isBase64Jpg = preg_match('/^data:image\/jpeg;base64,/', $dataUriString);
 $dataDecoded = null;
 

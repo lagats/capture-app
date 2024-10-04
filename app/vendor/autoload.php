@@ -9,3 +9,4 @@ require(__DIR__ . $ds . 'flight' . $ds . 'Flight.php');
 
 // Load Packages
 $loader->load(__DIR__ . $ds . 'session');
+$loader->load(__DIR__ . $ds . 'php-image-resize');
