@@ -13,13 +13,18 @@
     let photosArray = [];
     let currentPage = 0;
     let itemsPerPage = 12;
+    let isMyCaptures = document.body.classList.contains('gallery--my_captures');
 
     // Your custom API endpoint
     const apiUrl = './media';
 
     function updateAPIUrlWithNewPage() {
         currentPage++;
-        return `${apiUrl}?page=${currentPage}&count=${itemsPerPage}`;
+        let query = `${apiUrl}?page=${currentPage}&count=${itemsPerPage}`;
+        if(isMyCaptures){
+            query += '&my_captures=true';
+        }
+        return query;
     }
 
     function imageLoaded() {
@@ -40,9 +45,9 @@
     }
 
     function setAttributes(element, attributes) {
-    for (const key in attributes) {
-        element.setAttribute(key, attributes[key]);
-    }
+        for (const key in attributes) {
+            element.setAttribute(key, attributes[key]);
+        }
     }
 
     function displayPhotos() {

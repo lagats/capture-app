@@ -31,7 +31,7 @@
           <div class="loader" id="loader">
             <div class="masonry">
             <?php
-                for($i=1; $i<12; $i++) {
+                for($i=0; $i<9; $i++) {
                     ?>
                         <div class="masonry-item shimmer"></div>
                     <?php

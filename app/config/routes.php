@@ -82,7 +82,7 @@ Flight::group('', function() {
     Flight::route('/mypics', function () {
         // vars
         Flight::set('app.page.name',  ' | ' . 'My Photos');
-        Flight::set('app.page.classnames',  'gallery-page gallery--me');
+        Flight::set('app.page.classnames',  'gallery-page gallery--my_captures');
 
         // get template
         require(Flight::get('app.views.path') . 'gallery.php');

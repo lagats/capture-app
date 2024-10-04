@@ -19,7 +19,7 @@ $uploadFile = $_FILES['file'] ?? null;
 $isFileUpload = !empty($uploadFile['tmp_name']);
 
 // File vars
-$basename = 'media__' . Flight::get('app.timestamp');
+$basename = 'media__' . Flight::get('app.timestamp') . '__' . uniqid('P');
 $extension = null;
 
 // Check if the data is a base64-encoded string
@@ -65,6 +65,13 @@ if ($isBase64Jpg) {
     // If the data is a binary file, move it from the temporary location
     move_uploaded_file($uploadFile['tmp_name'], $filepath);
 }
+
+// Add image to your session to track which images were uploaded by the user
+$session = Flight::session();
+$my_captures = $session->getOrDefault('my_captures', []);
+$my_captures[] = $filename;
+$session->set('my_captures', $my_captures );
+$session->commit();
 
 // Generate a thumbnail for the uploaded file
 $thumbnailData = generateThumbnail($filepath);

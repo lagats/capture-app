@@ -94,7 +94,7 @@
         };
         xhr.onload = function() {
             if (xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
+                // const response = JSON.parse(xhr.responseText);
                 uploadProgress.textContent = 'Upload complete!';
                 if(reload) {
                     window.location.reload();
@@ -184,6 +184,14 @@
         startVideo(cameraFacingModes[cameraFacingIndex]);
     });
     window.addEventListener('blur', () => {
+        stopVideo();
+    });
+
+    // Listen turnstile popup
+    window.addEventListener('turnstileOverlayHide', () => {
+        startVideo(cameraFacingModes[cameraFacingIndex]);
+    });
+    window.addEventListener('turnstileOverlayShow', () => {
         stopVideo();
     });
 

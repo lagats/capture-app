@@ -21,6 +21,7 @@ if (!is_dir($uploadDir) || !is_readable($uploadDir)) {
 // Default values for pagination (sanitize later)
 $page = isset($_GET['page']) ? (int) filter_var($_GET['page'], FILTER_SANITIZE_NUMBER_INT) : 1;
 $itemsPerPage = isset($_GET['count']) ? (int) filter_var($_GET['count'], FILTER_SANITIZE_NUMBER_INT) : 10;
+$my_captures = isset($_GET['my_captures']) ? (bool) filter_var($_GET['my_captures'], FILTER_VALIDATE_BOOLEAN) : false;
 
 // Get image files considering extensions
 $files = glob($uploadDir . "/*.{" . implode(',', $allowedExtensions) . "}", GLOB_BRACE);
@@ -45,6 +46,11 @@ $slicedFiles = array_slice($files, $offset, $itemsPerPage);
 $data = [];
 foreach ($slicedFiles as $file) {
   $filename = basename($file);
+
+  // Filter out files that are not mine if 'my_captures' is true
+  if ($my_captures && !in_array($filename, Flight::session()->getOrDefault('my_captures', []))) {
+    continue;
+  }
 
   // Generate a thumbnail for the file if doesnt exist
   $thumbnailData = generateThumbnail($file);

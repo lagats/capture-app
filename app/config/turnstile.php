@@ -7,7 +7,12 @@ function turnstileScript() {
     if(!Flight::get('config.turnstile.enabled')) {
         return;
     }
-    echo '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>';
+    ?>
+        <link rel="stylesheet" type="text/css" href="<?php echo Flight::get('public.css.url') . 'turnstile.css' . '?ver=' . uniqid(); ?>"></style>
+
+        <script async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+        <script acync defer src="<?php echo Flight::get('public.js.url') . 'turnstile.js' . '?ver=' . uniqid(); ?>"></script>
+    <?php
 }
 
 /**
@@ -17,7 +22,9 @@ function turnstileElement() {
     if(!Flight::get('config.turnstile.enabled')) {
         return;
     }
-    echo '<div class="cf-turnstile" data-sitekey="' . (Flight::get('env')['TURNSTILE_KEY'] ?? '') . '"></div>';
+    ?>
+        <div class="cf-turnstile" data-sitekey="<?php echo (Flight::get('env')['TURNSTILE_KEY'] ?? ''); ?>"></div>
+    <?php
 }
 
 /**
