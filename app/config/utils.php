@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * Add CSRF Token to the page
+ **/
+function csrfTokenElement() {
+    $token = Flight::session()->getOrDefault('csrf_token', null);
+    if($token === null) {
+        return;
+    }
+    echo '<div class="csrf-token" data-sitekey="' . $token . '"></div>';
+}
+
+/**
  * Generates a thumbnail for the specified image file.
  **/
 function generateThumbnail($imageFile) {

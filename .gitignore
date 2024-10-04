@@ -1,4 +1,7 @@
 public/thumbnails
 public/uploads
+
 app/config/error.log
 app/vendor/*.zip
+
+.env

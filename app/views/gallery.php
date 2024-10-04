@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo Flight::get('app.sitename') . Flight::get('app.page.name'); ?></title>
 
+    <!-- CloudFlare Turnstile -->
+    <?php turnstileScript(); ?>
+
     <!-- shared -->
     <link rel="stylesheet" type="text/css" href="<?php echo Flight::get('public.css.url') . 'reset.css'; ?>"></style>
     <link rel="stylesheet" type="text/css" href="<?php echo Flight::get('public.css.url') . 'global.css' . '?ver=' . uniqid(); ?>"></style>
@@ -17,6 +20,9 @@
     <!-- capture css/js -->
     <link rel="stylesheet" type="text/css" href="<?php echo Flight::get('public.css.url') . 'capture.css' . '?ver=' . uniqid(); ?>"></style>
     <script acync defer src="<?php echo Flight::get('public.js.url') . 'capture.js' . '?ver=' . uniqid(); ?>"></script>
+
+    <!-- Google Analytics -->
+    <?php googleAnalytics();  ?>
 </head>
 <body class="<?php echo Flight::get('app.page.classnames'); ?>">
     <div class="camera-container">
@@ -67,6 +73,8 @@
             <div id="uploadProgress"></div>
         </div>
     </div>
-    <?php googleAnalytics();  ?>
+
+    <?php turnstileElement(); ?>
+    <?php csrfTokenElement(); ?>
 </body>
 </html>

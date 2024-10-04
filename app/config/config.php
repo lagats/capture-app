@@ -23,7 +23,11 @@ if(empty($app)) {
 }
 
 // This autoloads your code in the app directory so you don't have to require_once everything
-$app->path(realpath(__DIR__ . $ds . '..' . $ds));
+$app_root = realpath(__DIR__ . $ds . '..' . $ds . 'app');
+$app->path($app_root);
+
+// app env
+$app->set('env', parse_ini_file($app_root . '.env'));
 
 // Flight config variables. 
 $app->set('flight.base_url', 'https://capture.lagats.com/'); // if this is in a subdirectory, you'll need to change this
@@ -58,6 +62,12 @@ $app->set('app.date', $date);
 $app->set('app.timestamp', $date->getTimestamp());
 $app->set('app.sitename', 'Snap-a-Lagat');
 $app->set('app.allow.media', ['jpg', 'jpeg', 'png', 'gif']);
+
+// set turnstile var
+$app->set('config.turnstile.enabled', (
+	(Flight::get('env')['TURNSTILE_KEY'] ?? false)
+	&& (Flight::get('env')['TURNSTILE_SECRET'] ?? false)
+));
 
 /* 
  * This is where you will store database credentials, api credentials

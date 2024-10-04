@@ -21,6 +21,20 @@
     // State
     let videoActive = false;
 
+    // Get tokens
+    function getTokens() {
+        // get csrf_token
+        const csrf_token_el = document.querySelector('.csrf-token');
+        const csrf_token = csrf_token_el && csrf_token_el.getAttribute('data-sitekey');
+        // generate turnstile response (https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/)
+        const cf_turnstile = typeof turnstile !== 'undefined' && turnstile.getResponse && turnstile.getResponse();
+        // return tokens
+        return {
+            csrf_token,
+            cf_turnstile,
+        };
+    }
+
     // Function to start the video stream using the selected camera
     function startVideo(facingMode = cameraFacingModes[cameraFacingIndex]) {
         if(!video){
@@ -69,7 +83,9 @@
     // Function to upload the image to the server
     function uploadFormData(formData, reload = false) {
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'upload', true); // Replace with your PHP upload script URL
+        // submit to the upload endpoint
+        xhr.open('POST', '/upload', true);
+        // add request callbacks
         xhr.upload.onprogress = function(event) {
             if (event.lengthComputable) {
                 const progress = (event.loaded / event.total) * 100;
@@ -93,6 +109,12 @@
         xhr.onabort = function() {
             console.log('Upload canceled');
         };
+        // add tokens to the request
+        const tokens = getTokens();
+        Object.keys(tokens).forEach(function(key) {
+            formData.append(key, tokens[key]);
+        });
+        // submit the request
         xhr.send(formData);
     }
 

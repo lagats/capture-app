@@ -58,7 +58,22 @@ body {
     fill: currentColor;
 }
 
-
+::-webkit-scrollbar{
+	width: 10px;
+}
+::-webkit-scrollbar-track-piece{
+	background-color: var(--color--page);
+}
+::-webkit-scrollbar-thumb{
+	background-color: var(--color--page-lv2);
+	outline: 2px solid var(--color--page);
+	outline-offset: -2px;
+	border: .1px solid var(--color--page);
+    border-radius: 99rem;
+}
+::-webkit-scrollbar-thumb:hover{
+	background-color: var(--color--primary-light);
+}
 
 /* loading shimmer */
 .shimmer {
