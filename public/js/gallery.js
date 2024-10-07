@@ -53,29 +53,57 @@
     function displayPhotos() {
         imagesLoaded = 0;
         totalImages = photosArray.length;
-        photosArray.forEach((photo) => {
-            const item = document.createElement('a');
-            // Modify href based on your API response structure (replace with appropriate field)
-            setAttributes(item, {
+        photosArray.forEach((photo, index) => {
+            const photoId = ((currentPage - 1) * itemsPerPage) + index + 1;
+            // setup div
+            const div = document.createElement('div');
+            setAttributes(div, {
                 class: 'masonry-item',
+            });
+            // Setup checkbox 
+            const checkbox = document.createElement('input');
+            setAttributes(checkbox, {
+                type: 'checkbox',
+                id: `checkbox-${photoId}`,
+                class: 'masonry-checkbox',
+                value: photo.name,
+            });
+            checkbox.addEventListener('change', function() {
+                const event = new Event('checkboxChange');
+                      event.target = this;
+                window.dispatchEvent(event);
+            });
+            // Setup checkbox label
+            const label = document.createElement('label');
+            setAttributes(label, {
+                for: `checkbox-${photoId}`,
+                class: 'masonry-checkbox-label',
+            });
+            // Modify href based on your API response structure (replace with appropriate field)
+            const item = document.createElement('a');
+            setAttributes(item, {
+                class: 'masonry-link',
                 'data-fslightbox': '',
                 href: photo.size.original, // Assuming "original" holds the full image URL
                 target: '_blank',
             });
-            const img = document.createElement('img');
             // Modify src based on your API response structure (replace with appropriate field)
+            const img = document.createElement('img');
             setAttributes(img, {
                 class: 'masonry-content',
                 src: photo.size.thumb, // Assuming "thumb" holds the thumbnail URL
                 // alt: 'Wedding Photo', // Adjust based on your data or add logic for dynamic alt text
                 // title: 'Wedding Photo', // Adjust based on your data or add logic for dynamic title
                 decoding: 'async',
-                loading: 'lazy'
+                loading: 'lazy',
             });
             // Check when each is finished loading
-            img.addEventListener('load', imageLoaded);
             item.appendChild(img);
-            imageContainer.appendChild(item);
+            div.appendChild(checkbox);
+            div.appendChild(label);
+            div.appendChild(item);
+            imageContainer.appendChild(div);
+            img.addEventListener('load', imageLoaded);
         });
     }
 
@@ -83,7 +111,20 @@
         try {
             const res = await fetch(updateAPIUrlWithNewPage());
             photosArray = await res.json();
-            displayPhotos();
+            if(photosArray.length > 0) {
+                displayPhotos();
+            }
+            if(photosArray.length === 0) {
+                // stop loader if no images
+                loader.hidden = true;
+                if(currentPage === 1) {
+                    const galleryStatus = document.querySelector('#galleryStatus');
+                    galleryStatus.textContent = 'No images';
+                    galleryStatus.classList.add('visible');
+                    galleryStatus.classList.add('center');
+                }
+                return;
+            }
         } catch (err) {
             console.log(err);
         }

@@ -61,7 +61,7 @@ $date = new DateTime();
 $app->set('app.date', $date);
 $app->set('app.timestamp', $date->getTimestamp());
 $app->set('app.sitename', 'Snap-a-Lagat');
-$app->set('app.allow.media', ['jpg', 'jpeg', 'png', 'gif']);
+$app->set('app.allow.media', ['jpg', 'jpeg', 'png']);
 
 // set turnstile var
 $app->set('config.turnstile.enabled', (

@@ -161,6 +161,10 @@
     transition: all 0.3s ease-in-out;
     cursor: pointer;
 }
+.nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
 .nav-btn svg {
     margin-right: 0.25em;
 }
@@ -208,7 +212,10 @@
     box-shadow: inset 0 0 0 15px var(--color--page);
 }
 
-
+.delete-btn {
+    border-color: #e15a5a;
+    color: #f4c4c4;
+}
 
 /* responsive layout */
 

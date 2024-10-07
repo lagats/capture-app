@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo Flight::get('public.css.url') . 'gallery.css' . '?ver=' . uniqid(); ?>"></style>
     <script acync defer src="<?php echo Flight::get('public.js.url') . 'fslightbox.min.js' . '?ver=' . uniqid(); ?>"></script>
     <script acync defer src="<?php echo Flight::get('public.js.url') . 'gallery.js' . '?ver=' . uniqid(); ?>"></script>
+    <script acync defer src="<?php echo Flight::get('public.js.url') . 'delete.js' . '?ver=' . uniqid(); ?>"></script>
 
     <!-- capture css/js -->
     <link rel="stylesheet" type="text/css" href="<?php echo Flight::get('public.css.url') . 'capture.css' . '?ver=' . uniqid(); ?>"></style>
@@ -45,6 +46,7 @@
           <div class="image-container masonry" id="image-container"></div>
           <!-- Image Upload Status -->
           <div class="toast" id="uploadProgress"></div>
+          <div class="toast" id="galleryStatus"></div>
         </div>
         <div class="camera-toolbar">
             <div class="toolbar toolbar-main">
@@ -62,19 +64,26 @@
                 </button>
             </div>
             <div class="toolbar toolbar-secondary">
-                <!-- manual upload -->
-                <input hidden id="manualFileUpload" type="file" accept="image/png, image/gif, image/jpeg">
-                <button class="nav-btn" onClick="manualFileUpload.click()">
-                    <?php echo Flight::get('icon.upload'); ?>
-                    Upload
-                </button>
                 <!-- link to my uploaded images -->
                 <?php if(str_contains(Flight::get('app.page.classnames'),'my_captures')) { ?>
+                    <!-- Delete button -->
+                    <button disabled class="nav-btn delete-btn" id="deleteButton">
+                        <?php echo Flight::get('icon.delete'); ?>
+                        Delete
+                    </button>
+                    <!-- Gallery button -->
                     <a href="gallery" class="nav-btn">
                         <?php echo Flight::get('icon.gallery'); ?>
                         Gallery
                     </a>
                 <?php } else { ?>
+                    <!-- manual upload -->
+                    <input hidden id="manualFileUpload" type="file" accept="image/png, image/gif, image/jpeg">
+                    <button class="nav-btn" onClick="manualFileUpload.click()">
+                        <?php echo Flight::get('icon.upload'); ?>
+                        Upload
+                    </button>
+                    <!-- Gallery button -->
                     <a href="mypics" class="nav-btn">
                         <?php echo Flight::get('icon.my-gallery'); ?>
                         My Pics

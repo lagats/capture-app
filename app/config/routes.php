@@ -102,6 +102,9 @@ Flight::group('', function() {
     Flight::route('GET /media', function () {
         require(Flight::get('app.views.path') . 'api/media.php');
     });
+    Flight::route('POST /media-delete', function () {
+        require(Flight::get('app.views.path') . 'api/media-delete.php');
+    });
 }, [ new CheckCsrfMiddleware(), new CheckTurnstileMiddleware() ]);
 
 

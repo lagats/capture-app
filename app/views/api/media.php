@@ -27,8 +27,8 @@ $my_captures = isset($_GET['my_captures']) ? (bool) filter_var($_GET['my_capture
 $files = glob($uploadDir . "/*.{" . implode(',', $allowedExtensions) . "}", GLOB_BRACE);
 
 // Check if any images were found
-if (empty($files)) {
-  echo json_encode(['message' => 'No images found in the directory.']);
+if ($files === false || empty($files)) {
+  echo json_encode([]);
   exit;
 }
 

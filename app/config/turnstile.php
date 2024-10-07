@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * Set validated value
+ */
+function turnstileSetValidated() {
+    // Add status that user was validated by turnstile
+    $session = Flight::session();
+    $session->set('turnstile_validatated', Flight::get('app.timestamp'));
+    $session->commit();
+}
+
 /**
  * Validate cookie timestamp when we validate the user last completed the turnstile challenge, 
  * if it's older than 1 hour, we'll invalidate the session and redirect to the turnstile challenge
