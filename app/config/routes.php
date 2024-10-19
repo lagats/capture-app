@@ -57,37 +57,92 @@ class CheckTurnstileMiddleware
     }
 }
 
+// Add Header/Footer
+class HeaderFooterMiddleware
+{
+    public function after(array $params): void 
+    {
+        require(Flight::get('app.views.path') . 'partial/head.php');
+        $template = Flight::get('app.page.template');
+        if ($template) {
+            require($template);
+        }
+        require(Flight::get('app.views.path') . 'partial/footer.php');
+    }
+}
 
 
 /* ---------------------------- *
  * Page Routes
  * ---------------------------- */
 Flight::group('', function() {
-    Flight::route('/', function () {
-        // vars
-        Flight::set('app.page.name',  ' | ' . 'Home');
-        Flight::set('app.page.classnames',  'camera-page');
+    
+    /* ---------------------------- *
+     * Capture Page
+     * ---------------------------- */
+    
+    Flight::route('', function () {
+        // styles
+        Flight::set('enqueue.stylesheets', [
+            [ 'file' => 'reset.css' ],
+            [ 'file' => 'global.css' ],
+            [ 'file' => 'capture.css' ],
+        ]);
+        
+        // scripts
+        Flight::set('enqueue.scripts', [
+            [ 'file' => 'vendor/fslightbox.min.js', 'defer' => true ],
+            [ 'file' => 'gallery.js', 'defer' => true ],
+            [ 'file' => 'delete.js', 'defer' => true ],
+            [ 'file' => 'capture.js', 'defer' => true ],
+        ]);
         
         // get template
-        require(Flight::get('app.views.path') . 'capture.php');
-    });
-    Flight::route('/gallery', function () {
+        Flight::set('app.page.template', Flight::get('app.views.path') . 'capture.php');
+        
         // vars
-        Flight::set('app.page.name',  ' | ' . 'Gallery');
-        Flight::set('app.page.classnames',  'gallery-page gallery--all');
+        Flight::set('app.page.name', ' | ' . 'Home');
+        Flight::set('app.page.classnames', 'camera-page');
+    });
+    
+    /* ---------------------------- *
+     * Gallery Pages
+     * ---------------------------- */
+    
+    Flight::group('', function() {
+        // styles
+        Flight::set('enqueue.stylesheets', [
+            [ 'file' => 'reset.css' ],
+            [ 'file' => 'global.css' ],
+            [ 'file' => 'capture.css' ],
+            [ 'file' => 'gallery.css' ],
+        ]);
+        
+        // scripts
+        Flight::set('enqueue.scripts', [
+            [ 'file' => 'vendor/fslightbox.min.js', 'defer' => true ],
+            [ 'file' => 'gallery.js', 'defer' => true ],
+            [ 'file' => 'delete.js', 'defer' => true ],
+            [ 'file' => 'capture.js',  'defer' => true ],
+        ]);
         
         // get template
-        require(Flight::get('app.views.path') . 'gallery.php');
+        Flight::set('app.page.template', Flight::get('app.views.path') . 'gallery.php');
+        
+        // gallery routes
+        Flight::route('/gallery', function () {
+            // vars
+            Flight::set('app.page.name', ' | ' . 'Gallery');
+            Flight::set('app.page.classnames', 'gallery-page gallery--all');
+        });
+        Flight::route('/mypics', function () {
+            // vars
+            Flight::set('app.page.name', ' | ' . 'My Photos');
+            Flight::set('app.page.classnames', 'gallery-page gallery--my_captures');
+        }); 
     });
-    Flight::route('/mypics', function () {
-        // vars
-        Flight::set('app.page.name',  ' | ' . 'My Photos');
-        Flight::set('app.page.classnames',  'gallery-page gallery--my_captures');
-
-        // get template
-        require(Flight::get('app.views.path') . 'gallery.php');
-    });
-}, [ new AddCsrfMiddleware() ]);
+    
+}, [ new AddCsrfMiddleware(), new HeaderFooterMiddleware() ]);
 
 
 

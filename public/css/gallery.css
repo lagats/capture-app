@@ -161,3 +161,10 @@ body {
     cursor: pointer;
     z-index: 1;
 }
+
+
+
+/* placeholder */
+.masonry:not(:empty) + .loader {
+    display: none;
+}

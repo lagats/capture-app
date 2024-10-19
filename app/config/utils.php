@@ -11,6 +11,30 @@ function csrfTokenElement() {
     echo '<div class="csrf-token" data-sitekey="' . $token . '"></div>';
 }
 
+function stylesheets() {
+    $stylesheets = Flight::get('enqueue.stylesheets') ?? array();
+    $urlPathPrefix = Flight::get('public.css.url');
+    $cachebuster = Flight::get('app.devmode') ? ("?ver=" . Flight::get('app.timestamp')) : "";
+    foreach ($stylesheets as $stylesheet) {
+        $id  = isset($stylesheet['id']) ? " id='{$stylesheet['id']}'" : "";
+        $url = isset($stylesheet['file']) ? " href='{$urlPathPrefix}{$stylesheet['file']}{$cachebuster}'" : "";
+        echo "<link rel='stylesheet'$id$url>";
+    }
+}
+
+function scripts() {
+    $scripts = Flight::get('enqueue.scripts') ?? array();
+    $urlPathPrefix = Flight::get('public.js.url');
+    $cachebuster = Flight::get('app.devmode') ? ("?ver=" . Flight::get('app.timestamp')) : "";
+    foreach ($scripts as $script) {
+        $id    = isset($script['id']) ? " id='{$stylesheet['id']}'" : "";
+        $url   = isset($script['file']) ? " src='{$urlPathPrefix}{$script['file']}{$cachebuster}'" : "";
+        $async = isset($script['async']) ? " async" : "";
+        $defer = isset($script['defer']) ? " defer" : "";
+        echo "<script type='text/javascript'$id$url$async$defer></script>";
+    }
+}
+
 /**
  * Generates a thumbnail for the specified image file.
  **/

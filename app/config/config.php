@@ -36,6 +36,9 @@ $app->set('flight.log_errors', true); // if you want to log errors, set this to 
 $app->set('flight.handle_errors', true); // if you want flight to handle errors, set this to true, otherwise Tracy will handle them
 $app->set('flight.content_length', true); // if flight should send a content length header
 
+// dev mode
+$app->set('app.devmode', true);
+
 // app paths
 $app->set('app.path', realpath(__DIR__ . $ds . '..' . $ds) . $ds);
 $app->set('app.config.path', __DIR__ . $ds);
