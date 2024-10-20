@@ -57,6 +57,8 @@ class CheckTurnstileMiddleware
                 $result['error'] = 'Cloudflare Turnstile check failed';
                 Flight::jsonHalt($result, 403);
             }
+            // set cookie validated value
+            turnstileSetValidated();
         }
     }
 }

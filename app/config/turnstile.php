@@ -35,7 +35,7 @@ function turnstileEnabled() {
         return false;
     }
     return true;
-}   
+}
 
 /**
  * Add turnstile script to the page
