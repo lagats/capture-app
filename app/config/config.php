@@ -37,7 +37,7 @@ $app->set('flight.handle_errors', true); // if you want flight to handle errors,
 $app->set('flight.content_length', true); // if flight should send a content length header
 
 // dev mode
-$app->set('app.devmode', false);
+$app->set('app.devmode', true);
 
 // app paths
 $app->set('app.path', realpath(__DIR__ . $ds . '..' . $ds) . $ds);

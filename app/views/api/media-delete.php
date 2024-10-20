@@ -1,5 +1,11 @@
 <?php
 
+/* ---------------------------- *
+ * Set the response headers
+ * ---------------------------- */
+
+header('Content-Type: application/json');
+
 
 
 /* ---------------------------- *

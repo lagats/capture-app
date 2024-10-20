@@ -1,5 +1,11 @@
 <?php
 
+/* ---------------------------- *
+ * Set the response headers
+ * ---------------------------- */
+
+header('Content-Type: application/json');
+
 
 
 /* ---------------------------- *
@@ -15,7 +21,8 @@ $allowedExtensions = Flight::get('app.allow.media');
 
 // Check if the directory exists and is readable
 if (!is_dir($uploadDir) || !is_readable($uploadDir)) {
-  die("Error: Directory '$uploadDir' does not exist or is not readable.");
+  echo json_encode([]);
+  exit;
 }
 
 // Default values for pagination (sanitize later)

@@ -46,43 +46,48 @@ function scripts() {
  **/
 function generateThumbnail($imageFile) {
     // Check if the original image file exists
-    if (!file_exists($imageFile)) {
-        return [
-            'name' => '',
-            'path' => '',
-            'url'  => '',
-        ];
-    }
-
-    // Paths
-    $thumbnailDir = Flight::get('public.thumbnail.path');
-    $thumbnailUrl = Flight::get('public.thumbnail.url');
-
-    // Get the original image filename and extension
-    $originalFilename = basename($imageFile);
-    $imageExtension = pathinfo($imageFile, PATHINFO_EXTENSION);
-
-    // Create the thumbnail filename and path
-    $thumbnailFilename = 'thumb__' . $originalFilename;
-    $thumbnailFilepath = $thumbnailDir . '/' . $thumbnailFilename;
-
-    // Make thumbnail folder if it doesn't exist
-    if (!file_exists($thumbnailDir)) {
-        mkdir($thumbnailDir, 0755, true);
-    }
-
-    // Check if the thumbnail already exists
-    if (!file_exists($thumbnailFilepath)) {
-        $image = Flight::imageResize($imageFile);
-        $image->resizeToWidth(300);
-        $image->save($thumbnailFilepath);
-    }
-
-    return [
-        'name' => $thumbnailFilename,
-        'path' => $thumbnailFilepath,
-        'url'  => $thumbnailUrl . $thumbnailFilename,
+    $defaultData = [
+        'name' => '',
+        'path' => '',
+        'url'  => '',
     ];
+    if (!file_exists($imageFile)) {
+        return $defaultData;
+    }
+    try {
+        // Paths
+        $thumbnailDir = Flight::get('public.thumbnail.path');
+        $thumbnailUrl = Flight::get('public.thumbnail.url');
+
+        // Get the original image filename and extension
+        $originalFilename = basename($imageFile);
+        $imageExtension = pathinfo($imageFile, PATHINFO_EXTENSION);
+
+        // Create the thumbnail filename and path
+        $thumbnailFilename = 'thumb__' . $originalFilename;
+        $thumbnailFilepath = $thumbnailDir . '/' . $thumbnailFilename;
+
+        // Make thumbnail folder if it doesn't exist
+        if (!file_exists($thumbnailDir)) {
+            mkdir($thumbnailDir, 0755, true);
+        }
+
+        // Check if the thumbnail already exists
+        if (!file_exists($thumbnailFilepath)) {
+            $image = Flight::imageResize($imageFile);
+            $image->resizeToWidth(300);
+            $image->save($thumbnailFilepath);
+        }
+
+        // Return the thumbnail data
+        return [
+            'name' => $thumbnailFilename,
+            'path' => $thumbnailFilepath,
+            'url'  => $thumbnailUrl . $thumbnailFilename,
+        ];
+    } catch (\Exception $e) {
+        return $defaultData;
+    }
 }
 
 /**
