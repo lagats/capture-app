@@ -19,7 +19,7 @@ function turnstileValidated() {
     $turnstile_validatated = $session->getOrDefault('turnstile_validatated', 0);
     if($turnstile_validatated) {
         $time_difference = Flight::get('app.timestamp') - $turnstile_validatated;
-        $valid_duration = 60 * 60;
+        $valid_duration = Flight::get('config.turnstile.validated_duration');
         if($time_difference < $valid_duration) {
             return true;
         }
@@ -31,7 +31,7 @@ function turnstileValidated() {
  * Checks if the Turnstile feature is enabled and if the user has already validated the Turnstile challenge.
  */
 function turnstileEnabled() {
-    if(!Flight::get('config.turnstile.enabled') || turnstileValidated()) {
+    if(!Flight::get('config.turnstile.enabled')) {
         return false;
     }
     return true;

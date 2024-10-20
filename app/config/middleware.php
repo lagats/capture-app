@@ -46,6 +46,10 @@ class CheckTurnstileMiddleware
         if(!turnstileEnabled()) {
             return;
         }
+        if(turnstileValidated()) {
+            return;
+        }
+        // varify against Cloudflare's turnstile
         if(Flight::request()->method == 'POST') {
             // varify against Cloudflare's turnstile
             $result = turnstileVarify();

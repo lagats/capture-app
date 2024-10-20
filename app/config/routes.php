@@ -46,13 +46,21 @@ Flight::set('app.menuActions', [
             'onClick' => 'manualFileUpload.click()',
             'class'   => 'nav-btn',
         ],
-        'htmlBefore' => '<input hidden id="manualFileUpload" type="file" accept="' . implode(
-            ', ', 
-            array_map(
-                function($i){ return '.' . $i; }, 
-                Flight::get('app.allow.media')
-            )
-        ) . '">',
+        'htmlBefore' => function() {
+            // only add the hidden input if we haven't already added it
+            if(Flight::get('app.has.manualFileUpload')) {
+                return '';
+            }
+            // add a hidden input to the page to trigger the file upload
+            Flight::set('app.has.manualFileUpload', true);
+            return '<input hidden id="manualFileUpload" type="file" accept="' . implode(
+                ', ', 
+                array_map(
+                    function($i){ return '.' . $i; }, 
+                    Flight::get('app.allow.media')
+                )
+            ) . '">'
+        },
     ],
 ]);
 
@@ -69,16 +77,12 @@ Flight::group('', function() {
      * ---------------------------- */
     $cameraPage = Flight::get('app.menuItems')['camera'];
     Flight::route($cameraPage['attrs']['href'], function () use ($cameraPage) {
-        // styles
+        // enqueue styles
         Flight::set('enqueue.stylesheets', [
-            [ 'file' => 'reset.css' ],
-            [ 'file' => 'global.css' ],
-            [ 'file' => 'menu.css' ],
             [ 'file' => 'capture.css' ],
         ]);
-        // scripts
+        // enqueue scripts
         Flight::set('enqueue.scripts', [
-            [ 'file' => 'menu.js', 'defer' => true ],
             [ 'file' => 'capture.js', 'defer' => true ],
         ]);
         // get template
@@ -92,17 +96,13 @@ Flight::group('', function() {
      * Gallery Pages
      * ---------------------------- */
     Flight::group('', function() {
-        // styles
+        // enqueue styles
         Flight::set('enqueue.stylesheets', [
-            [ 'file' => 'reset.css' ],
-            [ 'file' => 'global.css' ],
-            [ 'file' => 'menu.css' ],
             [ 'file' => 'capture.css' ],
             [ 'file' => 'gallery.css' ],
         ]);
-        // scripts
+        // enqueue scripts
         Flight::set('enqueue.scripts', [
-            [ 'file' => 'menu.js', 'defer' => true ],
             [ 'file' => 'capture.js', 'defer' => true ],
             [ 'file' => 'vendor/fslightbox.min.js', 'defer' => true ],
             [ 'file' => 'gallery.js', 'defer' => true ],

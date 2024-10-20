@@ -14,8 +14,8 @@ function csrfTokenElement() {
 /**
  * Enqueues the stylesheets defined in the application configuration.
  */
-function stylesheets() {
-    $stylesheets = Flight::get('enqueue.stylesheets') ?? array();
+function stylesheets(array $stylesheets = array()) {
+    $stylesheets = count($stylesheets) > 0 ? $stylesheets : (Flight::get('enqueue.stylesheets') ?? array());
     $urlPathPrefix = Flight::get('public.css.url');
     $cachebuster = Flight::get('app.devmode') ? ("?ver=" . Flight::get('app.timestamp')) : "";
     foreach ($stylesheets as $stylesheet) {
@@ -28,8 +28,8 @@ function stylesheets() {
 /**
  * Enqueues the scripts defined in the application configuration.
  */
-function scripts() {
-    $scripts = Flight::get('enqueue.scripts') ?? array();
+function scripts(array $scripts = array()) {
+    $scripts = count($scripts) > 0 ? $scripts : (Flight::get('enqueue.scripts') ?? array());
     $urlPathPrefix = Flight::get('public.js.url');
     $cachebuster = Flight::get('app.devmode') ? ("?ver=" . Flight::get('app.timestamp')) : "";
     foreach ($scripts as $script) {

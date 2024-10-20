@@ -71,6 +71,7 @@ $app->set('config.turnstile.enabled', (
 	(Flight::get('env')['TURNSTILE_KEY'] ?? false)
 	&& (Flight::get('env')['TURNSTILE_SECRET'] ?? false)
 ));
+$app->set('config.turnstile.validated_duration', 60 * 60);
 
 /* 
  * This is where you will store database credentials, api credentials

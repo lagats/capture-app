@@ -4,16 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo Flight::get('app.sitename') . Flight::get('app.page.name'); ?></title>
+    
+    <?php /* global stylesheets */ ?>
+    <?php stylesheets([
+        [ 'file' => 'reset.css' ],
+        [ 'file' => 'global.css' ],
+        [ 'file' => 'menu.css' ],
+    ]); ?>
 
-    <?php /* stylesheets */ ?>
+    <?php /* all other stylesheets */ ?>
     <?php stylesheets(); ?>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" />
 
+    <?php /* global scripts */ ?>
+    <?php scripts([
+        [ 'file' => 'global.js', 'defer' => true ],
+        [ 'file' => 'menu.js', 'defer' => true ],
+    ]); ?>
+    
+    <?php /* all other scripts scripts */ ?>
+    <?php scripts(); ?>
+    
     <?php /* CloudFlare Turnstile */ ?>
     <?php turnstileScript(); ?>
-
-    <?php /* scripts */ ?>
-    <?php scripts(); ?>
     
     <?php /* Google Analytics */ ?>
     <?php googleAnalytics(); ?>
