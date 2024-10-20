@@ -9,7 +9,7 @@
 Flight::set('app.menuItems', [
     'camera'  => [
         'label'    => 'Camera',
-        'menuLabel'=> 'Take a photo',
+        'menuLabel'=> 'Capture a photo',
         'icon'     => 'camera',
         'attrs'    => [
             'href'    => '/',

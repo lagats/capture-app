@@ -67,7 +67,7 @@ function renderNavMenu(array $options = []) {
   ob_start();
   ?>
     <div class="nav-menu__container">
-        <button class="nav-btn nav-menu__btn" aria-expanded="false" onClick="openMenu()">
+        <button class="nav-btn nav-menu__btn" aria-expanded="false">
           <span class="state is-closed">
             <?php echo getIcon('menu'); ?>
             <span class="label">Menu</span>
@@ -78,6 +78,18 @@ function renderNavMenu(array $options = []) {
           </span>
         </button>
         <nav class="nav-menu">
+          <?php 
+            foreach ($menuItems as $key => $item) {
+              $item['label'] = $item['menuLabel'] ?? $item['label'];
+              echo renderMenuItem($item);
+            }
+          ?>
+          <?php
+            foreach ($menuActions as $key => $item) {
+              $item['label'] = $item['menuLabel'] ?? $item['label'];
+              echo renderMenuItem($item);
+            }
+          ?>
         </nav>
     </div>
   <?php

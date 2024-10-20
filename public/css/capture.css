@@ -26,6 +26,7 @@
     flex: 1 1 auto;
     overflow: auto;
     background: var(--color--page);
+    z-index: 1;
 }
 .camera-frame .camera-video {
     pointer-events: none;
@@ -171,6 +172,9 @@
 .nav-btn:disabled {
     opacity: var(--opacity--btn-disabled);
     cursor: not-allowed;
+}
+.nav-btn > * {
+    pointer-events: none;
 }
 .nav-btn svg {
     margin-right: 0.5em;
