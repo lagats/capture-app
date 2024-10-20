@@ -13,6 +13,12 @@ header('Content-Type: application/json');
  * ---------------------------- */
 
 if(Flight::request()->method == 'POST') {
+    if(!turnstileEnabled()) {
+        return;
+    }
+    if(turnstileValidated()) {
+        return;
+    }
     // varify against Cloudflare's turnstile
     $result = turnstileVarify();
     if($result['success'] === true) {

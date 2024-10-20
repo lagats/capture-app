@@ -4,33 +4,44 @@
 
 (function(){
 
-    // Get tokens
-    function getTokens() {
-        // get csrf_token
-        const csrf_token_el = document.querySelector('.csrf-token');
-        const csrf_token = csrf_token_el && csrf_token_el.getAttribute('data-sitekey');
-        // generate turnstile response (https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/)
-        const cf_turnstile = typeof turnstile !== 'undefined' && turnstile.getResponse && turnstile.getResponse();
-        // return tokens
-        return {
-            csrf_token,
-            cf_turnstile,
-        };
-    }
+    // Create capture object if it doesn't exist
+    window.capture = window.capture || {};
+    const capture = window.capture || {};
+
+    // Validate on inital pageload
+    const validateOnPageload = false;
 
     // Function to sent request to validate user
-    function validateUser() {
+    async function validateUser() {
         const formData = new FormData();
         const xhr = new XMLHttpRequest();
         // submit to the upload endpoint
         xhr.open('POST', '/turnstile-validate', true);
         // add tokens to the request
-        const tokens = getTokens();
+        const tokens = await capture.getTokens();
         Object.keys(tokens).forEach(function(key) {
             formData.append(key, tokens[key]);
         });
         // submit the request
         xhr.send(formData);
+    }
+    
+    // Function to validate an action 
+    // (src => https://community.cloudflare.com/t/using-turnstile-within-a-form-loaded-via-ajax/606667)
+    capture.validateAction = async function() {
+        // get the widget validated token
+        return new Promise((resolve, reject) => {
+            const widget = document.querySelector('.cf-turnstile');
+            window.turnstile.render(widget, {
+                sitekey: widget.getAttribute('data-sitekey'),
+                callback: function(token) {
+                    // return token
+                    resolve(token);
+                    // reset key so we dont reuse duplicate values
+                    window.turnstile.reset(widget);
+                },
+            });
+        });
     }
     
     // Check if turnstile is valid, reload if not
@@ -55,7 +66,7 @@
     // Check if turnstile has a response value avaliable for submit (and doesnt need us to interact with it)
     let hasValidated = false;
     let previousTurnstileEvent;
-    async function checkTurnstileResponse() {
+    capture.checkTurnstileResponse = async function() {
         try {
             const hasResponse = turnstile.getResponse();
             if (!hasResponse) {
@@ -81,7 +92,9 @@
                 }
                 // send validation when we have a valid response
                 if(!hasValidated) {
-                    validateUser();
+                    if(validateOnPageload) {
+                        validateUser();
+                    }
                     hasValidated = true;
                 }
             }
@@ -91,6 +104,6 @@
             }
         }
     }
-    setInterval(checkTurnstileResponse, 1000); // Check every 10 seconds
+    setInterval(capture.checkTurnstileResponse, 1000); // Check every 10 seconds
 
 })();

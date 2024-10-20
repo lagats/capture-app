@@ -4,6 +4,10 @@
 
 (function(){
 
+    // Create capture object if it doesn't exist
+    window.capture = window.capture || {};
+    const capture = window.capture || {};
+
     // Get references to HTML elements
     const video = document.getElementById('video');
     const cameraSelect = document.getElementById('cameraSelect');
@@ -20,20 +24,6 @@
 
     // State
     let videoActive = false;
-
-    // Get tokens
-    function getTokens() {
-        // get csrf_token
-        const csrf_token_el = document.querySelector('.csrf-token');
-        const csrf_token = csrf_token_el && csrf_token_el.getAttribute('data-sitekey');
-        // generate turnstile response (https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/)
-        const cf_turnstile = typeof turnstile !== 'undefined' && turnstile.getResponse && turnstile.getResponse();
-        // return tokens
-        return {
-            csrf_token,
-            cf_turnstile,
-        };
-    }
 
     // Function to start the video stream using the selected camera
     function startVideo(facingMode = cameraFacingModes[cameraFacingIndex]) {
@@ -81,7 +71,7 @@
     }
 
     // Function to upload the image to the server
-    function uploadFormData(formData, reload = false) {
+    async function uploadFormData(formData, reload = false) {
         const xhr = new XMLHttpRequest();
         // submit to the upload endpoint
         xhr.open('POST', '/upload', true);
@@ -126,7 +116,7 @@
             console.log('Upload canceled');
         };
         // add tokens to the request
-        const tokens = getTokens();
+        const tokens = await capture.getTokens();
         Object.keys(tokens).forEach(function(key) {
             formData.append(key, tokens[key]);
         });
@@ -137,6 +127,9 @@
     // Check if canvas is black
     function isCanvasCompletelyBlack(canvas) {
         const context = canvas.getContext('2d');
+        if(canvas.width === 0 || canvas.height === 0) {
+            return false;
+        }
         const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
         for (let i = 0; i < data.length; i += 4) {
@@ -148,52 +141,48 @@
     }
 
     // Event listener for camera selection change
-    if(cameraSelect) {
-        cameraSelect.addEventListener('click', () => {
-            cameraFacingIndex = (cameraFacingIndex + 1) % cameraFacingModes.length;
-            startVideo(cameraFacingModes[cameraFacingIndex]);
-        });
-    }
+    cameraSelect && cameraSelect.addEventListener('click', () => {
+        cameraFacingIndex = (cameraFacingIndex + 1) % cameraFacingModes.length;
+        startVideo(cameraFacingModes[cameraFacingIndex]);
+    });
 
     // Event listener for take photo button click
-    if(takePhotoButton) {
-        takePhotoButton.addEventListener('click', () => {
-            // Check if video is active
-            if(!videoActive) {
-                document.querySelector('#manualCapture').click();
-                return;
-            }
+    takePhotoButton && takePhotoButton.addEventListener('click', () => {
+        // Check if video is active
+        if(!videoActive) {
+            document.querySelector('#manualCapture').click();
+            return;
+        }
 
-            // Create a canvas element to draw the video frame
-            const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            const context = canvas.getContext('2d');
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
-            // Check if the canvas is completely black
-            if (isCanvasCompletelyBlack(canvas)) {
-                return;
-            }
-            
-            // Convert the canvas to a data URL (image/jpeg)
-            const dataURL = canvas.toDataURL('image/jpeg', 0.5); // Adjust quality as needed
+        // Create a canvas element to draw the video frame
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
         
+        // Check if the canvas is completely black
+        if (isCanvasCompletelyBlack(canvas)) {
+            return;
+        }
+        
+        // Convert the canvas to a data URL (image/jpeg)
+        const dataURL = canvas.toDataURL('image/jpeg', 0.5); // Adjust quality as needed
+    
 
-            // Create form data
-            const formData = new FormData();
-            formData.append('file', dataURL);
-        
-            // Show preview of last photo
-            previewImage(dataURL);
+        // Create form data
+        const formData = new FormData();
+        formData.append('file', dataURL);
+    
+        // Show preview of last photo
+        previewImage(dataURL);
 
-            // Do zoomy effect
-            galleryZoomyEffect();
-        
-            // Start asynchronous upload process
-            uploadFormData(formData);
-        });
-    }
+        // Do zoomy effect
+        galleryZoomyEffect();
+    
+        // Start asynchronous upload process
+        uploadFormData(formData);
+    });
 
     // Listen for window focus/blur events to pause/resume video
     window.addEventListener('focus', () => {

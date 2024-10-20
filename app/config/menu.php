@@ -30,7 +30,24 @@ function getIcon(string $icon) {
   return $icon ? Flight::get("icon.$icon") : '';
 }
 
-
+/**
+ * Resolves a value to a string.
+ *
+ * If the provided value is a callable, it is invoked and the result is returned as a string.
+ * Otherwise, the value is cast to a string and returned.
+ *
+ * @param mixed $value The value to resolve to a string.
+ * @return string The resolved string value.
+ */
+function resolveString($value = '') {
+  if (is_callable($value)) {
+      $value = $value();
+  }
+  if (is_string($value)) {
+      return $value;
+  }
+  return '';
+}
 
 /* ---------------------------- *
  * Render Button/Link
@@ -47,13 +64,13 @@ function renderMenuItem(array $menuItem = []) {
 
   $tag = isset($attrs['href']) ? 'a' : 'button';
   $attrsString = buildAttributesString($attrs);
-
-  $output  = $menuItem['htmlBefore'] ?? '';
+  
+  $output  = resolveString($menuItem['htmlBefore'] ?? '');
   $output .= "<{$tag} {$attrsString}>";
   $output .= getIcon($menuItem['icon'] ?? '');
   $output .= isset($menuItem['label']) ? '<span class="label">' . $menuItem['label'] . '</span>' : '';
   $output .= "</{$tag}>";
-  $output .= $menuItem['htmlAfter'] ?? '';
+  $output .= resolveString($menuItem['htmlAfter'] ?? '');
 
   return $output;
 }

@@ -4,6 +4,11 @@
 
 (function(){
 
+    // Create capture object if it doesn't exist
+    window.capture = window.capture || {};
+    const capture = window.capture || {};
+
+    // elements
     const navMenuBtns = document.querySelectorAll('.nav-menu__btn');
     const navMenus = document.querySelectorAll('.nav-menu');
     

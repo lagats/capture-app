@@ -59,7 +59,7 @@ Flight::set('app.menuActions', [
                     function($i){ return '.' . $i; }, 
                     Flight::get('app.allow.media')
                 )
-            ) . '">'
+            ) . '">';
         },
     ],
 ]);

@@ -4,9 +4,15 @@
 
 (function(){
 
+    // Create capture object if it doesn't exist
+    window.capture = window.capture || {};
+    const capture = window.capture || {};
+
+    // elements
     const imageContainer = document.getElementById('image-container');
     const loader = document.getElementById('loader');
 
+    // vars
     let ready = false;
     let imagesLoaded = 0;
     let totalImages = 0;

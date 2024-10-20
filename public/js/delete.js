@@ -4,24 +4,15 @@
 
 (function(){
 
+    // Create capture object if it doesn't exist
+    window.capture = window.capture || {};
+    const capture = window.capture || {};
+
+    // elements
     const deleteButton = document.getElementById('deleteButton');
 
-    // Get tokens
-    function getTokens() {
-        // get csrf_token
-        const csrf_token_el = document.querySelector('.csrf-token');
-        const csrf_token = csrf_token_el && csrf_token_el.getAttribute('data-sitekey');
-        // generate turnstile response (https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/)
-        const cf_turnstile = typeof turnstile !== 'undefined' && turnstile.getResponse && turnstile.getResponse();
-        // return tokens
-        return {
-            csrf_token,
-            cf_turnstile,
-        };
-    }
-
     // Function to sent request to validate user
-    function deleteSelected() {
+    async function deleteSelected() {
         const formData = new FormData();
         const xhr = new XMLHttpRequest();
         xhr.onload = function() {
@@ -39,7 +30,7 @@
         xhr.open('POST', '/media-delete', true);
         formData.append('delete_files', getCheckboxValuesAsJSON());
         // add tokens to the request
-        const tokens = getTokens();
+        const tokens = await capture.getTokens();
         Object.keys(tokens).forEach(function(key) {
             formData.append(key, tokens[key]);
         });
