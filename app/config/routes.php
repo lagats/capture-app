@@ -46,7 +46,13 @@ Flight::set('app.menuActions', [
             'onClick' => 'manualFileUpload.click()',
             'class'   => 'nav-btn',
         ],
-        'htmlBefore' => '<input hidden id="manualFileUpload" type="file" accept="image/png, image/gif, image/jpeg">',
+        'htmlBefore' => '<input hidden id="manualFileUpload" type="file" accept="' . implode(
+            ', ', 
+            array_map(
+                function($i){ return '.' . $i; }, 
+                Flight::get('app.allow.media')
+            )
+        ) . '">',
     ],
 ]);
 
