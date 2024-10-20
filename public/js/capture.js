@@ -16,6 +16,7 @@
     const uploadPreview = document.getElementById('uploadPreview');
 
     // Camera facing mode
+    let imageQuality = 0.35;
     let cameraFacingIndex = 0;
     const cameraFacingModes = [
         'environment',
@@ -67,7 +68,11 @@
 
     // Update image preview
     function previewImage(dataURL) {
-        uploadPreview.innerHTML = `<img src="${dataURL}">`;
+        if(!uploadPreview) {
+            return;
+        }
+        uploadPreview.innerHTML = `<img class="preview-image" src="${dataURL}">`;
+        return document.querySelector('.preview-image');
     }
 
     // Function to upload the image to the server
@@ -128,7 +133,7 @@
     function isCanvasCompletelyBlack(canvas) {
         const context = canvas.getContext('2d');
         if(canvas.width === 0 || canvas.height === 0) {
-            return false;
+            return true;
         }
         const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
@@ -153,7 +158,7 @@
             document.querySelector('#manualCapture').click();
             return;
         }
-
+        
         // Create a canvas element to draw the video frame
         const canvas = document.createElement('canvas');
         canvas.width = video.videoWidth;
@@ -167,19 +172,18 @@
         }
         
         // Convert the canvas to a data URL (image/jpeg)
-        const dataURL = canvas.toDataURL('image/jpeg', 0.5); // Adjust quality as needed
-    
-
+        const dataURL = canvas.toDataURL('image/jpeg', imageQuality); // Adjust quality as needed
+        
         // Create form data
         const formData = new FormData();
         formData.append('file', dataURL);
-    
+        
         // Show preview of last photo
         previewImage(dataURL);
-
+        
         // Do zoomy effect
         galleryZoomyEffect();
-    
+        
         // Start asynchronous upload process
         uploadFormData(formData);
     });
@@ -215,11 +219,24 @@
         if(!element) {
             return;
         }
-        element.addEventListener('change', function() {
-            const file = element.files[0];
+        element.addEventListener('change', async function() {
+            let file = element.files[0];
+            
+            // try to downscale image
+            if(typeof capture !== 'undefined' && capture.fileToDataUri && capture.compressImage) {
+
+                // compressing the uplodaded image
+                const resizedImageDataURL = await capture.compressImage(file, 4096, 4096, imageQuality);
+                previewImage(resizedImageDataURL);
+
+                // update file reference with image dataURL
+                file = resizedImageDataURL;
+            }
+            
+            // add to form data
             const formData = new FormData();
                   formData.append('file', file);
-    
+            
             // Call uploadFormData function to handle upload
             uploadFormData(formData, true);
         }, false);

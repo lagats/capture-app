@@ -83,6 +83,7 @@ Flight::group('', function() {
         ]);
         // enqueue scripts
         Flight::set('enqueue.scripts', [
+            [ 'file' => 'image-resize.js', 'defer' => true ],
             [ 'file' => 'capture.js', 'defer' => true ],
         ]);
         // get template
@@ -103,6 +104,7 @@ Flight::group('', function() {
         ]);
         // enqueue scripts
         Flight::set('enqueue.scripts', [
+            [ 'file' => 'image-resize.js', 'defer' => true ],
             [ 'file' => 'capture.js', 'defer' => true ],
             [ 'file' => 'vendor/fslightbox.min.js', 'defer' => true ],
             [ 'file' => 'gallery.js', 'defer' => true ],

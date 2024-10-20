@@ -1,5 +1,5 @@
 // -------------------
-// Turnstile helper functions
+// Global functions
 // -------------------
 
 (function(){
@@ -16,7 +16,6 @@
         // generate turnstile response (https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/)
         const cf_turnstile = typeof capture !== 'undefined' && capture.validateAction && await capture.validateAction();
         // return tokens
-        console.log(cf_turnstile);
         return {
             csrf_token,
             cf_turnstile,
