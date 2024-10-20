@@ -78,7 +78,10 @@
     // add click event to delete button
     deleteButton && deleteButton.addEventListener('click', function(event) {
         event.preventDefault();
-        deleteSelected();
+        // Prompt the user for confirmation
+        if (confirm("Delete the selected photos?")) {
+            deleteSelected();
+        }
     });
 
 })();

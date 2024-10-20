@@ -100,7 +100,15 @@ require('icons.php');
 
 
 /* ---------------------------- *
- * Load routes
+ * Load menu
+ * ---------------------------- */
+
+require('menu.php');
+
+
+
+/* ---------------------------- *
+ * Load routes & middleware
  * ---------------------------- *
  * 
  * The $router variable above is passed into the routes.php
@@ -109,6 +117,7 @@ require('icons.php');
  * When someone hits that URL, you point them to a function or method 
  * that will handle the request.
  */
+require('middleware.php');
 require('routes.php');
 
 

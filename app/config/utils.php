@@ -11,6 +11,9 @@ function csrfTokenElement() {
     echo '<div class="csrf-token" data-sitekey="' . $token . '"></div>';
 }
 
+/**
+ * Enqueues the stylesheets defined in the application configuration.
+ */
 function stylesheets() {
     $stylesheets = Flight::get('enqueue.stylesheets') ?? array();
     $urlPathPrefix = Flight::get('public.css.url');
@@ -22,6 +25,9 @@ function stylesheets() {
     }
 }
 
+/**
+ * Enqueues the scripts defined in the application configuration.
+ */
 function scripts() {
     $scripts = Flight::get('enqueue.scripts') ?? array();
     $urlPathPrefix = Flight::get('public.js.url');

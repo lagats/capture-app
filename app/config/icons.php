@@ -13,7 +13,8 @@ function getSVG(string $svgFile, string $className = '') {
 			$svgContent = file_get_contents($svgFile);
 
 			// Add the class to the SVG element
-			$svgContent = preg_replace('/<svg/', '<svg class="' . trim('svg-icon' . ' ' . $className) . '" ', $svgContent, 1);
+			$filename = pathinfo($svgFile, PATHINFO_FILENAME);
+			$svgContent = preg_replace('/<svg/', '<svg class="' . trim('svg-icon' . ' svg-icon--' . $filename . ' ' . $className) . '" ', $svgContent, 1);
 
 			return $svgContent;
 	} else {
@@ -30,6 +31,6 @@ function getSVG(string $svgFile, string $className = '') {
 // Get image files considering extensions
 $files = glob(Flight::get('app.icon.path') . "/*.svg");
 foreach ($files as $file) {
-    $filename = pathinfo($file, PATHINFO_FILENAME);
+	$filename = pathinfo($file, PATHINFO_FILENAME);
 	Flight::set('icon.' . $filename, getSVG($file));
 }

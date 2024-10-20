@@ -1,0 +1,18 @@
+
+/* menu */
+
+.nav-menu__container {
+    display: flex;
+}
+
+.nav-menu__btn > .state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.nav-menu__btn:not(.open) .is-open {
+    display: none;
+}
+.nav-menu__btn.open .is-closed {
+    display: none;
+}

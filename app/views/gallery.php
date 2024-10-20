@@ -1,8 +1,8 @@
 <div class="camera-container">
     <div class="camera-frame" id="cameraView">
-        <!-- Image Container -->
+        <?php /* Image Container */ ?>
         <div class="image-container masonry" id="image-container"></div>
-        <!-- Loader -->
+        <?php /* Loader */ ?>
         <div class="loader" id="loader">
             <div class="masonry">
                 <?php
@@ -16,51 +16,38 @@
                 ?>
             </div>
         </div>
-        <!-- Image Upload Status -->
-        <div class="toast" id="uploadProgress"></div>
-        <div class="toast" id="galleryStatus"></div>
+        <?php /* No gallery items error */ ?>
+        <span class="toast" id="galleryStatus"></span>
+        <?php /* Other status messages */ ?>
+        <div class="toast-container">
+            <?php /* Upload progress */ ?>
+            <span class="toast" id="uploadProgress"></span>
+            <?php /* Delete button */ ?>
+            <button disabled class="nav-btn delete-btn" id="deleteButton">
+                <?php echo Flight::get('icon.delete'); ?>
+                <span class="label">Delete</span>
+            </button>
+        </div>
     </div>
     <div class="camera-toolbar">
         <div class="toolbar toolbar-main">
-            <div class="camera-btn__group gallery-preview">
-                <div class="gallery-preview__frame" id="uploadPreview"></div>
-                <a href="/" class="camera-btn camera-btn--small" id="viewGallery" aria-label="View Gallery">
-                    <?php echo Flight::get('icon.camera'); ?>
-                </a>
-            </div>
+            <a href="/" class="camera-btn camera-btn--small" aria-label="Back to Camera">
+                <?php echo Flight::get('icon.camera'); ?>
+            </a>
             <button disabled class="camera-btn camera-take-photo" aria-label="Take Photo">
-                <!-- this will be styled with CSS -->
+                <?php /* this will be styled with CSS */ ?>
             </button>
             <button disabled class="camera-btn camera-btn--small" aria-label="Swap Camera View">
                 <?php echo Flight::get('icon.swap'); ?>
             </button>
         </div>
         <div class="toolbar toolbar-secondary">
-            <!-- link to my uploaded images -->
             <?php if(str_contains(Flight::get('app.page.classnames'),'my_captures')) { ?>
-                <!-- Delete button -->
-                <button disabled class="nav-btn delete-btn" id="deleteButton">
-                    <?php echo Flight::get('icon.delete'); ?>
-                    Delete
-                </button>
-                <!-- Gallery button -->
-                <a href="gallery" class="nav-btn">
-                    <?php echo Flight::get('icon.gallery'); ?>
-                    Gallery
-                </a>
+                <?php echo renderMenuItemByKey('gallery'); ?>
             <?php } else { ?>
-                <!-- manual upload -->
-                <input hidden id="manualFileUpload" type="file" accept="image/png, image/gif, image/jpeg">
-                <button class="nav-btn" onClick="manualFileUpload.click()">
-                    <?php echo Flight::get('icon.upload'); ?>
-                    Upload
-                </button>
-                <!-- Gallery button -->
-                <a href="mypics" class="nav-btn">
-                    <?php echo Flight::get('icon.my-gallery'); ?>
-                    My Pics
-                </a>
+                <?php echo renderMenuItemByKey('mypics'); ?>
             <?php } ?>
+            <?php echo renderNavMenu(); ?>
         </div>
     </div>
 </div>

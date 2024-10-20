@@ -25,6 +25,10 @@
     height: 100%;
     flex: 1 1 auto;
     overflow: auto;
+    background: var(--color--page);
+}
+.camera-frame .camera-video {
+    pointer-events: none;
 }
 .camera-page .camera-frame {
     overflow: hidden;
@@ -63,9 +67,6 @@
 
 .camera-frame.video-error .error {
     display: block;
-    bottom: 50%;
-    left: 50%;
-    transform: translate(-50%, 50%);
 }
 .camera-frame.video-error .warning svg {
     margin-right: 0.25em;
@@ -90,13 +91,13 @@
     flex: 0 0 auto;
     width: 100%;
     z-index: 100;
-    background-color: var(--color--page);
+    background-color: var(--color--page-dark);
 }
 .toolbar {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: var(--gap--xlg);
+    gap: var(--font-size--capture-btn);
     padding: var(--gap--lg);
 }
 .toolbar-main {
@@ -127,6 +128,10 @@
     pointer-events: none;
     border: 2px solid var( --color--primary-lighter);
     opacity: 1;
+    z-index: 999;
+}
+.gallery-preview__frame:empty {
+    z-index: 0;
 }
 .gallery-preview__frame.image-taken {
     transition: none;
@@ -146,27 +151,34 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    display: inline-block;
-    background: var( --color--page-scrim);
+    background: rgba(0,0,0,0.8);
     border: 2px solid var( --color--primary-lighter);
     color:  var( --color--text);
     padding: 0.75rem 1.25rem;
     border-radius: 99rem;
     z-index: 999;
     text-align: center;
-    font-size: 1rem;
-    width: max-content;
+    font-size: var(--font-size--nav-btn);
+    /* width: max-content; */
+    min-width: 8.75em;
     max-width: 90%;
     text-decoration: none;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
+    box-shadow: 0 0 40px 0 rgba(0,0,0,0.5);
+    font-weight: 600;
 }
 .nav-btn:disabled {
-    opacity: 0.4;
+    opacity: var(--opacity--btn-disabled);
     cursor: not-allowed;
 }
 .nav-btn svg {
-    margin-right: 0.25em;
+    margin-right: 0.5em;
+}
+.nav-btn .label {
+    position: relative;
+    display: inline-block;
+    /* transform: translate(0,-0.05em); */
 }
 .nav-btn:is(:hover,:focus) {
     transform: scale(1.1);
@@ -178,7 +190,7 @@
     border-radius: 99rem;
     background-color: var(--color--page);
     color: var(--color--text);
-    font-size: clamp(1em,10vw,3em);
+    font-size: var(--font-size--capture-btn);
     width: 2em;
     height: 2em;
     text-decoration: none;
@@ -196,11 +208,14 @@
     opacity: 0.8;
 }
 .camera-btn:disabled {
-    opacity: 0.3;
+    opacity: var(--opacity--btn-disabled);
     pointer-events: none;
 }
 .camera-btn--small {
-    font-size: clamp(0.8em,8vw,2.4em);
+    font-size: var(--font-size--capture-btn--sm);
+}
+.camera-btn svg {
+    transform: scale(1.15);
 }
 
 .camera-take-photo {
@@ -214,8 +229,17 @@
 
 .delete-btn {
     border-color: #e15a5a;
-    color: #f4c4c4;
+    background: #e15a5a;
+    /* color: #f4c4c4; */
+    color: #000;
+    width: 23.5em;
+    max-width: 90%;
 }
+.delete-btn:disabled {
+    display: none;
+}
+
+
 
 /* responsive layout */
 
@@ -243,6 +267,12 @@
         bottom: 0;
         width: 100%;
         flex-direction: row;
-        padding-right: calc(var(--gap--lg) * 4 + clamp(1rem,10vw,3rem));
+        padding-left: var(--gap--lg);
+        padding-right: calc(var(--gap--lg) * 3 + 3em + var(--font-size--capture-btn));
+        pointer-events: none;
+        font-size: 0.8em;
+    }
+    .toolbar-secondary > * {
+        pointer-events: all;
     }
 }
