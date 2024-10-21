@@ -186,6 +186,12 @@
         uploadFormData(formData);
     }
 
+    // Change camer view
+    function changeCameraView() {
+        cameraFacingIndex = (cameraFacingIndex + 1) % cameraFacingModes.length;
+        startVideo(cameraFacingModes[cameraFacingIndex]);
+    }
+
     // Event listener for take photo button click
     const takePhotoDebounce = capture.debounce ? capture.debounce(takePhoto, 1250) : takePhoto;
     takePhotoButton && takePhotoButton.addEventListener('click', function(e) {
@@ -194,10 +200,10 @@
     });
 
     // Event listener for camera selection change
+    const changeCameraViewDebounce = capture.debounce ? capture.debounce(changeCameraView, 300) : changeCameraView;
     cameraSelect && cameraSelect.addEventListener('click', (e) => {
         e.preventDefault();
-        cameraFacingIndex = (cameraFacingIndex + 1) % cameraFacingModes.length;
-        startVideo(cameraFacingModes[cameraFacingIndex]);
+        changeCameraViewDebounce();
     });
 
     // Listen for window focus/blur events to pause/resume video
