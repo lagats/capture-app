@@ -3,7 +3,13 @@
         <?php /* Video element to show camera feed */ ?>
         <video class="camera-video" id="video" autoplay disablePictureInPicture></video>
         <?php /* Hidden input that gets triggered by #takePhotoButton if we cant get camera feed directly */ ?>
-        <input hidden id="manualCapture" type="file" capture="environment" accept="image/png, image/gif, image/jpeg">
+        <input hidden id="manualCapture" type="file" capture="environment" accept="<?php echo implode(
+            ', ', 
+            array_map(
+                function($i){ return '.' . $i; }, 
+                Flight::get('app.allow.media')
+            )
+        ); ?>">
         <?php /* No camrea feed error */ ?>
         <span class="toast error center">
             <?php echo Flight::get('icon.error'); ?>
