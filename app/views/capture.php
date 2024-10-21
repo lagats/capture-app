@@ -25,14 +25,14 @@
         <div class="toolbar toolbar-main">
             <div class="camera-btn__group gallery-preview">
                 <div class="gallery-preview__frame" id="uploadPreview"></div>
-                <a href="gallery" class="camera-btn camera-btn--small" id="viewGallery" aria-label="View Gallery">
+                <a href="/gallery" class="camera-btn camera-btn--small" id="viewGallery" aria-label="View Gallery">
                     <?php echo Flight::get('icon.image'); ?>
                 </a>
             </div>
-            <a class="camera-btn camera-take-photo" id="takePhotoButton" aria-label="Take Photo">
+            <a href="#" class="camera-btn camera-take-photo" id="takePhotoButton" aria-label="Take Photo">
                 <?php /* this will be styled with CSS */ ?>
             </a>
-            <a class="camera-btn camera-btn--small" id="cameraSelect" aria-label="Swap Camera View">
+            <a href="#" class="camera-btn camera-btn--small" id="cameraSelect" aria-label="Swap Camera View">
                 <?php echo Flight::get('icon.swap'); ?>
             </a>
         </div>
