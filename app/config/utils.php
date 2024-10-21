@@ -16,11 +16,21 @@ function csrfTokenElement() {
  */
 function stylesheets(array $stylesheets = array()) {
     $stylesheets = count($stylesheets) > 0 ? $stylesheets : (Flight::get('enqueue.stylesheets') ?? array());
-    $urlPathPrefix = Flight::get('public.css.url');
+    $urlPrefix = Flight::get('public.css.url');
+    $pathPrefix = Flight::get('public.css.path');
     $cachebuster = Flight::get('app.devmode') ? ("?ver=" . Flight::get('app.timestamp')) : "";
+
     foreach ($stylesheets as $stylesheet) {
-        $id  = isset($stylesheet['id']) ? " id='{$stylesheet['id']}'" : "";
-        $url = isset($stylesheet['file']) ? " href='{$urlPathPrefix}{$stylesheet['file']}{$cachebuster}'" : "";
+        if (isset($stylesheet['file'])) {
+            $filePath = $pathPrefix . $stylesheet['file'];
+            if (file_exists($filePath)) {
+                $lastEditTime = filemtime($filePath);
+                $cachebuster = "?ver=" . $lastEditTime;
+            }
+        }
+
+        $id = isset($stylesheet['id']) ? " id='{$stylesheet['id']}'" : "";
+        $url = isset($stylesheet['file']) ? " href='{$urlPrefix}{$stylesheet['file']}{$cachebuster}'" : "";
         echo "<link rel='stylesheet'$id$url>";
     }
 }
@@ -30,11 +40,21 @@ function stylesheets(array $stylesheets = array()) {
  */
 function scripts(array $scripts = array()) {
     $scripts = count($scripts) > 0 ? $scripts : (Flight::get('enqueue.scripts') ?? array());
-    $urlPathPrefix = Flight::get('public.js.url');
+    $urlPrefix = Flight::get('public.js.url');
+    $pathPrefix = Flight::get('public.js.path');
     $cachebuster = Flight::get('app.devmode') ? ("?ver=" . Flight::get('app.timestamp')) : "";
+    
     foreach ($scripts as $script) {
-        $id    = isset($script['id']) ? " id='{$stylesheet['id']}'" : "";
-        $url   = isset($script['file']) ? " src='{$urlPathPrefix}{$script['file']}{$cachebuster}'" : "";
+        if (isset($script['file'])) {
+            $filePath = $pathPrefix . $script['file'];
+            if (file_exists($filePath)) {
+                $lastEditTime = filemtime($filePath);
+                $cachebuster = "?ver=" . $lastEditTime;
+            }
+        }
+        
+        $id    = isset($script['id']) ? " id='{$script['id']}'" : "";
+        $url   = isset($script['file']) ? " src='{$urlPrefix}{$script['file']}{$cachebuster}'" : "";
         $async = isset($script['async']) ? " async" : "";
         $defer = isset($script['defer']) ? " defer" : "";
         echo "<script type='text/javascript'$id$url$async$defer></script>";
