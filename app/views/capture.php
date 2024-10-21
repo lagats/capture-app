@@ -29,12 +29,12 @@
                     <?php echo Flight::get('icon.image'); ?>
                 </a>
             </div>
-            <button class="camera-btn camera-take-photo" id="takePhotoButton" aria-label="Take Photo">
+            <a class="camera-btn camera-take-photo" id="takePhotoButton" aria-label="Take Photo">
                 <?php /* this will be styled with CSS */ ?>
-            </button>
-            <button class="camera-btn camera-btn--small" id="cameraSelect" aria-label="Swap Camera View">
+            </a>
+            <a class="camera-btn camera-btn--small" id="cameraSelect" aria-label="Swap Camera View">
                 <?php echo Flight::get('icon.swap'); ?>
-            </button>
+            </a>
         </div>
         <div class="toolbar toolbar-secondary">
             <?php echo renderMenuItemByKey('upload'); ?>

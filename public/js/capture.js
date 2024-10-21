@@ -188,10 +188,14 @@
 
     // Event listener for take photo button click
     const takePhotoDebounce = capture.debounce ? capture.debounce(takePhoto, 1250) : takePhoto;
-    takePhotoButton && takePhotoButton.addEventListener('click', takePhotoDebounce);
+    takePhotoButton && takePhotoButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        takePhotoDebounce();
+    });
 
     // Event listener for camera selection change
-    cameraSelect && cameraSelect.addEventListener('click', () => {
+    cameraSelect && cameraSelect.addEventListener('click', (e) => {
+        e.preventDefault();
         cameraFacingIndex = (cameraFacingIndex + 1) % cameraFacingModes.length;
         startVideo(cameraFacingModes[cameraFacingIndex]);
     });
