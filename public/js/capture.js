@@ -187,7 +187,7 @@
     }
 
     // Event listener for take photo button click
-    const takePhotoDebounce = capture.debounce(takePhoto, 1250);
+    const takePhotoDebounce = capture.debounce ? capture.debounce(takePhoto, 1250) : takePhoto;
     takePhotoButton && takePhotoButton.addEventListener('click', takePhotoDebounce);
 
     // Event listener for camera selection change
