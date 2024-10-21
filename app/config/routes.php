@@ -146,7 +146,7 @@ Flight::group('', function() {
     Flight::route('POST /media-delete', function () {
         require(Flight::get('app.views.path') . 'api/media-delete.php');
     });
-}, [ new CheckCsrfMiddleware(), new CheckTurnstileMiddleware() ]);
+}, [ new CheckCsrfMiddleware(), new DebounceMiddleware(), new CheckTurnstileMiddleware() ]);
 
 
 
@@ -158,4 +158,4 @@ Flight::group('', function() {
     Flight::route('POST /turnstile-validate', function () {
         require(Flight::get('app.views.path') . 'api/turnstile-validate.php');
     });
-}, [ new CheckCsrfMiddleware() ]); /* ENSURE WE DONT USE 'CheckTurnstileMiddleware()' HERE */
+}, [ new CheckCsrfMiddleware(), new DebounceMiddleware() ]); /* ENSURE WE DONT USE 'CheckTurnstileMiddleware()' HERE */

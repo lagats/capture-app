@@ -19,6 +19,23 @@ class AddCsrfMiddleware {
     }
 }
 
+// Debounce using cookie timestamp
+class DebounceMiddleware 
+{
+    public function before(array $params): void 
+    {
+        if(Flight::request()->method == 'POST') {
+            if(!debounceSessionIsValid()) {
+                $result = [
+                    "success" => false,
+                    "error" => "Too many requests. Please try again later.",
+                ];
+                Flight::jsonHalt($result, 403);
+            }
+        }
+    }
+}
+
 // This middleware checks if the request is a POST request and if it is, it checks if the CSRF token is valid
 class CheckCsrfMiddleware 
 {

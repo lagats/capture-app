@@ -149,14 +149,8 @@
         return true; // All pixels are black
     }
 
-    // Event listener for camera selection change
-    cameraSelect && cameraSelect.addEventListener('click', () => {
-        cameraFacingIndex = (cameraFacingIndex + 1) % cameraFacingModes.length;
-        startVideo(cameraFacingModes[cameraFacingIndex]);
-    });
-
-    // Event listener for take photo button click
-    takePhotoButton && takePhotoButton.addEventListener('click', () => {
+    // Take photo action
+    function takePhoto() {
         // Check if video is active
         if(!videoActive) {
             document.querySelector('#manualCapture').click();
@@ -190,6 +184,16 @@
         
         // Start asynchronous upload process
         uploadFormData(formData);
+    }
+
+    // Event listener for take photo button click
+    const takePhotoDebounce = capture.debounce(takePhoto, 1250);
+    takePhotoButton && takePhotoButton.addEventListener('click', takePhotoDebounce);
+
+    // Event listener for camera selection change
+    cameraSelect && cameraSelect.addEventListener('click', () => {
+        cameraFacingIndex = (cameraFacingIndex + 1) % cameraFacingModes.length;
+        startVideo(cameraFacingModes[cameraFacingIndex]);
     });
 
     // Listen for window focus/blur events to pause/resume video
@@ -244,6 +248,7 @@
             uploadFormData(formData, true);
         }, false);
     }
+
     // Add listener
     bindFileUploadField('#manualFileUpload');
     bindFileUploadField('#manualCapture');

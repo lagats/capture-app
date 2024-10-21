@@ -131,3 +131,33 @@ function debugInline() {
         </script>
     <?php
 }
+
+/**
+ * Debounces session updates to prevent excessive writes.
+ *
+ * This function checks if the current timestamp is at least 1 second after the last
+ * timestamp stored in the session. If so, it updates the session with the current
+ * timestamp and returns true, allowing the calling code to proceed with the session
+ * update. Otherwise, it returns false to indicate that the session update should
+ * be skipped.
+ *
+ * This helps prevent excessive writes to the session, which can be important for
+ * performance and scalability, especially in high-traffic web applications.
+ *
+ * @return bool True if the session can be updated, false otherwise.
+ */
+function debounceSessionIsValid() {
+    $session = Flight::session();
+    $debounce_key = 'debounce_timestamp';
+
+    $last_timestamp = $session->getOrDefault($debounce_key, 0);
+    $current_timestamp = Flight::get('app.timestamp');
+    $threshold = 1; // time in seconds
+
+    if ($current_timestamp - $last_timestamp >= $threshold) {
+        $session->set($debounce_key, $current_timestamp);
+        return true;
+    } else {
+        return false;
+    }
+}
