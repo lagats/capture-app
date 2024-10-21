@@ -24,7 +24,12 @@
                 window.location.reload();
             } else {
                 console.error('Delete error:', xhr.statusText);
+                window.location.reload();
             }
+        };
+        xhr.onerror = function() {
+            console.error('Delete error:', xhr.statusText);
+            window.location.reload();
         };
         // submit to the upload endpoint
         xhr.open('POST', '/media-delete', true);

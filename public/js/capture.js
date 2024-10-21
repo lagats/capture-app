@@ -112,10 +112,14 @@
                 }
             } else {
                 console.error('Upload error:', xhr.statusText);
+                uploadProgress.textContent = 'Upload error';
+                window.location.reload();
             }
         };
         xhr.onerror = function() {
             console.error('Upload error:', xhr.statusText);
+            uploadProgress.textContent = 'Upload error';
+            window.location.reload();
         };
         xhr.onabort = function() {
             console.log('Upload canceled');
