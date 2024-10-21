@@ -227,8 +227,7 @@
             let file = element.files[0];
             
             // try to downscale image
-            if(typeof capture !== 'undefined' && capture.fileToDataUri && capture.compressImage) {
-
+            if(typeof capture !== 'undefined' && capture.compressImage) {
                 // compressing the uplodaded image
                 const resizedImageDataURL = await capture.compressImage(file, 4096, 4096, imageQuality);
                 previewImage(resizedImageDataURL);

@@ -35,9 +35,24 @@ if ($isBase64Jpg) {
     $dataDecoded = base64_decode(str_replace('data:image/jpeg;base64,', '', $dataUriString));
     // It has to be a jpg
     $extension = 'jpg';
+    // Check if the data is valid (a 1px image is about 1000 bytes, so use this as the threshold)
+    if(strlen($dataDecoded) < 1000) {
+        echo json_encode([
+            'error' => 'Invalid file data.'
+        ]);
+        exit;
+    }
 } elseif ($isFileUpload) {
     // If a file was uploaded, get the extension from the file name
     $extension = pathinfo($uploadFile['name'], PATHINFO_EXTENSION);
+    $filesize = filesize($uploadFile['tmp_name']);
+    // Check if the data is valid (a 1px image is about 1000 bytes, so use this as the threshold)
+    if($filesize < 1000) {
+        echo json_encode([
+            'error' => 'Invalid file upload.'
+        ]);
+        exit;
+    }
 } else {
     // Return an error if no data was provided
     echo json_encode([
